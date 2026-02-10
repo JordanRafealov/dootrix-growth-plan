@@ -49,7 +49,6 @@ html, body {
   transition: opacity 400ms ease;
   overflow-y: auto;
   padding: 50px 40px 80px;
-  scrollbar-gutter: stable;
 }
 .slide.active { opacity: 1; pointer-events: auto; }
 .slide.center-v { align-items: center; }
@@ -62,7 +61,6 @@ html, body {
 .slide-inner {
   width: 100%;
   max-width: 960px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
@@ -120,6 +118,7 @@ s { color: var(--text-secondary); text-decoration: line-through; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.grid-2x4 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
 .bullet-list { list-style: none; padding: 0; }
 .bullet-list li {
@@ -208,9 +207,37 @@ s { color: var(--text-secondary); text-decoration: line-through; }
 .gap-section h4 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
 .gap-section p { font-size: 17px; color: var(--text-secondary); line-height: 1.6; }
 
+.question-list { list-style: none; padding: 0; }
+.question-list li {
+  padding: 12px 0 12px 28px;
+  position: relative;
+  font-size: 17px;
+  line-height: 1.5;
+  font-style: italic;
+}
+.question-list li::before {
+  content: '?';
+  position: absolute;
+  left: 0; top: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+  font-style: normal;
+}
+
 .stat { text-align: center; padding: 28px 20px; }
 .stat .num { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
 .stat .label { font-size: 16px; color: var(--text-secondary); line-height: 1.4; }
+
+.funnel-step { display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 16px; }
+.funnel-step .arrow { color: var(--text-secondary); font-size: 14px; }
+.funnel-highlight {
+  padding: 10px 16px;
+  background: rgba(124,58,237,0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(124,58,237,0.2);
+  font-weight: 600;
+}
 
 details {
   background: var(--card);
@@ -338,6 +365,32 @@ details .detail-body ul {
   margin: 0 auto 32px;
 }
 
+.gap-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px 0;
+}
+.gap-box {
+  text-align: center;
+  padding: 28px 32px;
+  border-radius: var(--radius);
+  min-width: 180px;
+}
+.gap-arrow {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bonus-value { font-size: 20px; font-weight: 700; color: var(--accent); }
+
 .faq-item {
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -374,31 +427,47 @@ details .detail-body ul {
   line-height: 1.6;
 }
 
-.pyramid-row {
+/* Pyramid */
+.pyramid-container { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 20px 0; }
+.pyramid-tier {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-.pyramid-bar {
-  height: 40px;
   border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
+  padding: 14px 20px;
+  text-align: center;
   font-weight: 600;
+  font-size: 15px;
   color: #fff;
   transition: transform 200ms ease;
 }
-.pyramid-bar:hover { transform: scaleY(1.08); }
-.pyramid-label {
-  font-size: 14px;
-  color: var(--text-secondary);
-  min-width: 240px;
-  text-align: left;
+.pyramid-tier:hover { transform: scaleY(1.06); }
+.pyramid-tier-label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Flow diagrams */
+.flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  text-align: center;
 }
+.flow-box {
+  background: rgba(124,58,237,0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.flow-box-green {
+  background: rgba(34,197,94,0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.flow-arrow { color: var(--accent); font-size: 16px; flex-shrink: 0; }
 
 .nav-bar {
   position: fixed;
@@ -407,33 +476,29 @@ details .detail-body ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
   background: rgba(12,12,20,0.92);
   backdrop-filter: blur(12px);
   border-top: 1px solid rgba(255,255,255,0.06);
   z-index: 100;
 }
-.nav-btn {
-  background: rgba(124,58,237,0.15);
-  border: 1px solid rgba(124,58,237,0.3);
-  color: var(--accent);
-  width: 36px; height: 36px;
+.nav-dot {
+  width: 8px; height: 8px;
   border-radius: 50%;
+  background: rgba(255,255,255,0.15);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
   transition: all 200ms ease;
   flex-shrink: 0;
 }
-.nav-btn:hover { background: rgba(124,58,237,0.3); border-color: var(--accent); }
+.nav-dot.active { background: var(--accent); transform: scale(1.3); }
 .nav-counter {
-  font-size: 14px;
+  position: fixed;
+  bottom: 54px;
+  right: 40px;
+  font-size: 13px;
   color: var(--text-secondary);
+  z-index: 100;
   font-variant-numeric: tabular-nums;
-  min-width: 60px;
-  text-align: center;
 }
 
 .mb-4 { margin-bottom: 4px; }
@@ -459,818 +524,1113 @@ details .detail-body ul {
   h2 { font-size: 36px; }
   .grid-2, .grid-3, .tl-grid { grid-template-columns: 1fr; }
   .tl-card.tl-full { grid-column: auto; }
-  .pyramid-label { min-width: 160px; font-size: 12px; }
+  .flow-row { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-<!-- ============================================================ -->
 <!-- SLIDE 1: TITLE -->
-<!-- ============================================================ -->
 <div class="slide center-v active" data-slide="1">
-<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+<div class="slide-inner text-center" style="justify-content:center; min-height:100%; display:flex; flex-direction:column;">
   <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">DOPAMINE DIGITAL</p>
-  <h1 style="font-size:46px; margin-bottom:20px; text-align:center;">How We Will Help Dootrix Build a<br><span class="text-accent">Predictable Pipeline to &pound;20M</span></h1>
-  <p class="subtitle" style="max-width:740px; margin:0 auto 40px; text-align:center;">A 90-day growth engine to fill your top of funnel with qualified CTO and CIO conversations &mdash; without relying on referrals or hoping events convert</p>
-  <p class="playfair-quote" style="max-width:550px; margin:0 auto 40px; font-size:20px; text-align:center;">&ldquo;Built specifically for Rob Borley &amp; Dootrix&rdquo;</p>
-  <p class="small muted" style="text-align:center;">February 2026</p>
+  <h1 style="font-size:46px; margin-bottom:20px;">How We Will Help Dootrix Build a <span class="text-accent">Predictable Pipeline</span> for Sustained 50%+ Growth</h1>
+  <p class="subtitle" style="max-width:740px; margin:0 auto 40px;">A 90-day growth engine to fill your top of funnel with qualified CTO and CIO conversations &mdash; without relying on referrals or hoping events convert</p>
+  <p class="playfair-quote" style="max-width:550px; margin:0 auto 40px; font-size:20px;">&ldquo;Built specifically for Rob Borley &amp; Dootrix&rdquo;</p>
+  <p class="small muted">February 2026</p>
 </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- SLIDE 2: DISCOVERY RECAP -->
-<!-- ============================================================ -->
 <div class="slide" data-slide="2">
 <div class="slide-inner">
-  <p class="eyebrow">Discovery Recap</p>
-  <h2 class="mb-32">What We Found</h2>
-
-  <div class="grid-2 mb-32">
-    <div class="card card-green card-sm">
-      <h4 class="text-green mb-12">What Stood Out</h4>
-      <ul class="check-list">
-        <li>74% revenue growth &mdash; hit 50% target and exceeded it</li>
-        <li>Heathrow, Confused.com, Ofcom &mdash; world-class case studies that sell themselves</li>
-        <li>Rob&rsquo;s thought leadership is strong &mdash; 16+ podcast episodes, weekly LinkedIn content</li>
-        <li>Microsoft Solutions Partner + Crown Commercial Service &mdash; opens government doors</li>
-        <li>Already doing free workshops &mdash; the attraction model exists</li>
-        <li>New COO (Tom) + CGO (David) &mdash; serious leadership bench</li>
+  <h2 class="mb-32">&#x1F50D; What We Learned About Your Business</h2>
+  <div class="grid-2">
+    <div class="card" style="border-color:rgba(34,197,94,0.2);">
+      <h4 class="text-green mb-16">What Stood Out</h4>
+      <ul class="bullet-list green">
+        <li><strong>74% revenue growth</strong> &mdash; hit the 50% target and exceeded it</li>
+        <li><strong>Heathrow, Confused.com, Ofcom</strong> &mdash; world-class case studies that sell themselves</li>
+        <li>Rob&rsquo;s thought leadership is strong &mdash; 16+ events, weekly LinkedIn content</li>
+        <li><strong>Microsoft Solutions Partner + Crown Commercial Service</strong> &mdash; opens government doors</li>
+        <li>Already running free workshops &mdash; the attraction model exists</li>
+        <li>New COO (Tom) + CGO (David) &mdash; serious leadership bench for scale</li>
       </ul>
     </div>
-    <div class="card card-amber card-sm">
-      <h4 class="text-amber mb-12">What Needs Addressing</h4>
-      <ul class="x-list">
-        <li>Top of funnel is the biggest bottleneck &mdash; Rob&rsquo;s own words</li>
-        <li>9-month sales cycle needs compression &mdash; too long for &pound;20M target</li>
-        <li>Content isn&rsquo;t reaching buyers &mdash; podcast audience is thought leaders, not ICP</li>
+    <div class="card" style="border-color:rgba(245,158,11,0.2);">
+      <h4 class="text-amber mb-16">What Needs Addressing</h4>
+      <ul class="bullet-list amber">
+        <li><strong>Top of funnel is the biggest bottleneck</strong> &mdash; Rob&rsquo;s own words</li>
+        <li><strong>9-month sales cycle</strong> needs compression for sustained growth</li>
+        <li>Content is reaching thought leaders and peers, not <strong>buyers</strong></li>
         <li>No systematic outbound engine &mdash; growth has been organic/referral</li>
-        <li>53 competitors positioning similarly in Agentic AI space</li>
-        <li>Free workshops run but no outbound filling the room with the RIGHT people</li>
+        <li>53 competitors positioning similarly in the Agentic AI space</li>
+        <li>Workshops run but no outbound filling the room with the RIGHT people</li>
       </ul>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- SLIDE 3: CASE STUDY — CREATESTUDIO -->
-<!-- ============================================================ -->
 <div class="slide" data-slide="3">
 <div class="slide-inner">
   <p class="eyebrow">Case Study</p>
-  <h2 class="mb-8">CreateStudio</h2>
-  <p class="subtitle mb-24">AI Explainer Video Creator</p>
+  <h2 class="mb-4">CreateStudio</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">AI Explainer Video Creator</p>
 
   <div class="quote-card mb-24">
     <p>&ldquo;Created a sales funnel that generated $3M+ in revenue, increasing enterprise value and enabling a multiple 7-figure exit&rdquo;</p>
   </div>
 
-  <div class="video-wrap mb-24">
-    <iframe src="https://www.youtube.com/embed/BExJ1GF4SOU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=BExJ1GF4SOU" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/BExJ1GF4SOU/maxresdefault.jpg" alt="CreateStudio case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
   </div>
 
-  <ul class="check-list mb-24">
-    <li>Increased revenue by $600,000/month in under 12 months</li>
+  <ul class="bullet-list mb-24">
+    <li>Increased revenue by <strong>$600,000/month</strong> in under 12 months</li>
     <li>Built top 5 performing YouTube ads in their category</li>
-    <li>Presented live webinar to 2,000 concurrent viewers</li>
-    <li>Generated $100,000 from stage and $336,000 total from a single campaign</li>
-    <li>Led the offer, ad, and funnel rebuild that enabled a 7-figure exit</li>
+    <li>Presented live webinar to <strong>2,000 concurrent viewers</strong></li>
+    <li>Generated <strong>$100,000 from stage</strong> and <strong>$336,000 total</strong> from a single campaign</li>
+    <li>Led the offer, ad, and funnel rebuild that enabled a <strong>7-figure exit</strong></li>
   </ul>
 
-  <div class="grid-2">
-    <img src="assets/createstudio_3.png" alt="CreateStudio results" class="proof-img">
-    <img src="assets/createstudio_5.png" alt="CreateStudio campaign" class="proof-img">
+  <div class="img-row">
+    <img src="assets/createstudio_3.png" alt="CreateStudio $100K weekend" class="proof-img">
+    <img src="assets/createstudio_5.png" alt="CreateStudio $336K total revenue" class="proof-img">
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 4: CASE STUDY — MEDIAPLACE AI -->
-<!-- ============================================================ -->
+<!-- SLIDE 4: CASE STUDY — HELLOCUSTOM -->
 <div class="slide" data-slide="4">
 <div class="slide-inner">
   <p class="eyebrow">Case Study</p>
-  <h2 class="mb-8">MediaPlace AI</h2>
-  <p class="subtitle mb-24">AI-Powered Media Monitoring</p>
+  <h2 class="mb-4">HelloCustom</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">AI Tool for Etsy Sellers</p>
 
   <div class="quote-card mb-24">
-    <p>&ldquo;$100,000 in pre-sales within 6 weeks &mdash; built the product after confirming demand&rdquo;</p>
+    <p>&ldquo;$90,000 generated within 45 days &mdash; before the product was even built&rdquo;</p>
   </div>
 
-  <ul class="check-list mb-24">
-    <li>Generated $100,000 in pre-sales before the product launched</li>
-    <li>Used workshop model to fill rooms with enterprise buyers</li>
-    <li>Converted 15% of workshop attendees into paying customers</li>
-    <li>Built email list of 3,000+ qualified enterprise leads in 60 days</li>
+  <ul class="bullet-list mb-32">
+    <li>Masterminded a pre-sale campaign to existing customer base</li>
+    <li>Generated <strong>$90,000+ in pre-sales</strong> before the product was developed</li>
+    <li>Validated product-market fit with real revenue, not surveys</li>
+    <li>Proved the offer sold &mdash; then built the product</li>
   </ul>
 
-  <div class="grid-2">
-    <img src="assets/mediaplace_0.png" alt="MediaPlace AI results" class="proof-img">
-    <img src="assets/mediaplace_1.png" alt="MediaPlace AI campaign" class="proof-img">
+  <div>
+    <img src="assets/hellocustom_0.png" alt="HelloCustom $90K presale proof" class="proof-img">
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 5: WHY NOW — THE TRUST WINDOW -->
-<!-- ============================================================ -->
+<!-- SLIDE 5: CASE STUDY — MEDIAPLACE AI -->
 <div class="slide" data-slide="5">
 <div class="slide-inner">
-  <h2 class="mb-8">Why This Needs to Happen Now</h2>
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">MediaPlace AI</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">All-in-One AI Media Manager</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Worked directly with the founder to take a product from idea to multi-6-figure SaaS &mdash; one of the highest-rated softwares on AppSumo with 500+ five-star TrustPilot reviews&rdquo;</p>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li><strong>Worked directly with the founder</strong> from concept through to a multi-6-figure revenue product</li>
+    <li>Launched go-to-market strategy that generated <strong>multiple 6-figures</strong></li>
+    <li>Achieved <strong>#1 rated software</strong> on AppSumo in its category</li>
+    <li>Built <strong>500+ five-star reviews</strong> on TrustPilot &mdash; one of the highest-rated SaaS products on the platform</li>
+    <li>Created complete sales funnel, marketing campaigns, and sales assets</li>
+  </ul>
+
+  <div class="img-row">
+    <img src="assets/mediaplace_0.png" alt="MediaPlace proof 1" class="proof-img">
+    <img src="assets/mediaplace_3.png" alt="MediaPlace proof 2" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 6: CASE STUDY — RIPPLE -->
+<div class="slide" data-slide="6">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">Ripple</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">B2B AI Platform &mdash; Closest Company to Dootrix</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Bombarded with high-quality leads from day one. Three sales closed in the first 60 days &mdash; they no longer need to rely on investors to fund growth.&rdquo;</p>
+  </div>
+
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=aY_y9TyVK2Q" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/aY_y9TyVK2Q/maxresdefault.jpg" alt="Ripple case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li><strong>B2B tech company</strong> selling to enterprise &mdash; the closest comparison to Dootrix in our portfolio</li>
+    <li><strong>3 closed deals in the first 60 days</strong> &mdash; pipeline that converts, not just vanity metrics</li>
+    <li>Allowed them to <strong>break free from investor dependency</strong> &mdash; revenue-funded growth</li>
+    <li>Installed a scalable AI growth engine that continues generating leads on autopilot</li>
+    <li>Podcast + outbound + AI follow-up = the same motion we&rsquo;re proposing for Dootrix</li>
+  </ul>
+</div>
+</div>
+
+<!-- SLIDE 7: CASE STUDY — GOLDPHISH -->
+<div class="slide" data-slide="7">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">Goldphish</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">Cybersecurity Awareness Training Platform</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Dramatically increased lead flow volume and quality. Installed a scalable growth engine that enabled predictable pipeline for channel partner acquisition.&rdquo;</p>
+  </div>
+
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=zbu8fe9pvrg" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/zbu8fe9pvrg/maxresdefault.jpg" alt="Goldphish case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li>UK-based B2B SaaS company &mdash; selling to MSPs, cybersecurity consultants, and enterprises</li>
+    <li><strong>Dramatically increased lead flow</strong> volume and quality</li>
+    <li>Installed a <strong>scalable growth engine</strong> into the business</li>
+    <li>Enabled <strong>predictable pipeline</strong> for channel partner acquisition</li>
+    <li>Used podcast + outbound combination to build authority in the cybersecurity space</li>
+  </ul>
+</div>
+</div>
+
+<!-- SLIDE 8: WHY THIS NEEDS TO HAPPEN NOW -->
+<div class="slide" data-slide="8">
+<div class="slide-inner">
+  <h2 class="mb-8">&#x23F0; Why This Needs to Happen Now</h2>
   <p class="subtitle mb-32">The window to build trust and brand in Agentic AI is closing fast</p>
+
+  <!-- Timeline visual -->
+  <div class="card mb-24" style="padding:24px 32px; border-color:rgba(124,58,237,0.2);">
+    <p style="font-size:13px; font-weight:600; color:var(--accent); margin-bottom:16px; letter-spacing:0.05em; text-align:center;">THE PIPELINE CLOCK IS TICKING</p>
+    <div class="flow-row">
+      <div class="flow-box" style="background:rgba(239,68,68,0.1);">
+        <strong style="color:var(--red);">Today</strong><br><span style="color:var(--text-secondary);">No outbound engine</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box" style="background:rgba(245,158,11,0.1);">
+        <strong style="color:var(--amber);">+3 Months</strong><br><span style="color:var(--text-secondary);">Engine built, pipeline filling</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box" style="background:rgba(245,158,11,0.1);">
+        <strong style="color:var(--amber);">+9 Months</strong><br><span style="color:var(--text-secondary);">First outbound deals closing</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box-green">
+        <strong style="color:var(--green);">+12 Months</strong><br><span style="color:var(--text-secondary);">Sustained 50%+ growth</span>
+      </div>
+    </div>
+    <p style="font-size:13px; color:var(--red); text-align:center; margin-top:12px; font-weight:600;">With a 9-month sales cycle, pipeline you DON&rsquo;T build today = revenue gap in Q4 2026</p>
+  </div>
 
   <div class="grid-2 mb-24">
     <div class="card card-sm" style="border-top: 3px solid var(--red);">
-      <h4 class="mb-12" style="font-size:19px;">AI Is Eating Market Share</h4>
-      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">2026 is the tipping point. Gartner projects <strong style="color:var(--text);">40% of enterprise apps will feature AI agents by end of 2026</strong> (up from &lt;5% in 2025). Every month Dootrix waits, competitors are building relationships with your buyers. Elsewhen, Faculty, and ICS.AI are all ramping positioning in the same space.</p>
+      <h4 class="mb-8" style="font-size:18px;">&#x1F4C9; AI Is Eating Market Share</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">Gartner projects <strong style="color:var(--text);">40% of enterprise apps will feature AI agents by end of 2026</strong>. Every month Dootrix waits, Elsewhen, Faculty, and ICS.AI are building relationships with your ICP.</p>
     </div>
     <div class="card card-sm" style="border-top: 3px solid var(--amber);">
-      <h4 class="mb-12" style="font-size:19px;">The Trust Window Is Closing</h4>
-      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">As AI commoditizes delivery, the winners will be the companies with trusted relationships and recognized brands. When anyone can build, trust becomes the differentiator. Rob&rsquo;s own words: <strong style="color:var(--text);">&ldquo;When anyone can build anything, the cost of poor judgement becomes higher.&rdquo;</strong> Put YOUR face out there NOW.</p>
+      <h4 class="mb-8" style="font-size:18px;">&#x1F512; The Trust Window Is Closing</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">When anyone can build anything, <strong style="color:var(--text);">trust becomes the differentiator.</strong> The companies that move first to build relationships and brand will win. Rob&rsquo;s own words: &ldquo;The cost of poor judgement becomes higher.&rdquo;</p>
     </div>
     <div class="card card-sm" style="border-top: 3px solid var(--green);">
-      <h4 class="mb-12" style="font-size:19px;">Government Money Is Flowing</h4>
-      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">&pound;2B AI investment by 2029/30. &pound;10B NHS tech investment. &pound;3.25B Transformation Fund. G-Cloud 15 = &pound;14B framework. <strong style="color:var(--text);">Crown Commercial Service gives Dootrix a seat at the table.</strong> But the budget window won&rsquo;t last.</p>
+      <h4 class="mb-8" style="font-size:18px;">&#x1F4B7; Government Money Is Flowing</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">&pound;2B AI investment by 2029/30. &pound;10B NHS tech. G-Cloud 15 = &pound;14B. <strong style="color:var(--text);">Crown Commercial Service gives Dootrix a seat at the table.</strong> But the budget window won&rsquo;t last.</p>
     </div>
     <div class="card card-sm" style="border-top: 3px solid var(--accent);">
-      <h4 class="mb-12" style="font-size:19px;">9-Month Math</h4>
-      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">With a 9-month sales cycle, <strong style="color:var(--text);">pipeline you build TODAY closes in Q4 2026</strong>. Pipeline you DON&rsquo;T build today = revenue gap next year. To hit &pound;20M in 3 years, the outbound engine needed to start yesterday.</p>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 6: THE MARKET FORMULA -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="6">
-<div class="slide-inner">
-  <h2 class="mb-8">97% of Your Market Isn&rsquo;t Looking for You</h2>
-  <p class="subtitle mb-32">Only 3% of buyers are actively in-market at any time. The other 97% need to know, trust, and remember you BEFORE they need an Azure specialist.</p>
-
-  <div class="card mb-24" style="padding:32px 40px;">
-    <div class="pyramid-row">
-      <div class="pyramid-bar" style="width:80px; background:var(--green);">3%</div>
-      <span class="pyramid-label">Actively buying now</span>
-    </div>
-    <div class="pyramid-row">
-      <div class="pyramid-bar" style="width:140px; background:rgba(34,197,94,0.5);">7%</div>
-      <span class="pyramid-label">Open to it but not looking</span>
-    </div>
-    <div class="pyramid-row">
-      <div class="pyramid-bar" style="width:260px; background:var(--amber);">30%</div>
-      <span class="pyramid-label">Not thinking about it</span>
-    </div>
-    <div class="pyramid-row">
-      <div class="pyramid-bar" style="width:380px; background:rgba(245,158,11,0.5);">30%</div>
-      <span class="pyramid-label">Don&rsquo;t think they&rsquo;re interested</span>
-    </div>
-    <div class="pyramid-row">
-      <div class="pyramid-bar" style="width:500px; background:var(--red);">30%</div>
-      <span class="pyramid-label">Know they&rsquo;re not interested</span>
+      <h4 class="mb-8" style="font-size:18px;">&#x1F3C1; First-Mover Advantage</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">Rob is already publishing, but it&rsquo;s not converting to pipeline. The content is there &mdash; <strong style="color:var(--text);">the outbound engine isn&rsquo;t pushing it to the RIGHT people.</strong> 53 competitors are ramping up in the same space.</p>
     </div>
   </div>
 
-  <div class="card card-violet card-sm mb-24" style="text-align:center;">
-    <p style="font-size:19px; margin-bottom:12px; font-weight:600;">When that 97% IS ready &mdash; will they think of Dootrix, or one of your 53 competitors?</p>
-    <p style="font-size:17px; color:var(--text-secondary);">The answer: <strong class="text-accent">Workshops + Outbound + Content</strong> = you&rsquo;re the one they remember.</p>
-  </div>
+  <p class="playfair-quote text-center" style="max-width:700px; margin:0 auto;">&ldquo;The real risk is not that this technology is imperfect. It&rsquo;s that others will quietly adopt it.&rdquo; &mdash; Rob Borley</p>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 7: GAP #1 — NO PREDICTABLE TOP-OF-FUNNEL -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="7">
-<div class="slide-inner">
-  <p class="eyebrow">Gap Analysis</p>
-  <h2 class="mb-32">Gap #1: Content Without Pipeline</h2>
-
-  <div class="card card-red card-sm mb-24">
-    <ul class="bullet-list red">
-      <li>Rob&rsquo;s LinkedIn content is excellent. Podcast is strong. But it&rsquo;s reaching thought leaders and peers, not <strong>BUYERS</strong></li>
-      <li>16 events and podcasts done &mdash; but how many converted to pipeline?</li>
-      <li>Currently: awareness without acquisition</li>
-      <li>The missing link: systematic outbound that pushes Rob&rsquo;s authority content TO the right people</li>
-    </ul>
-  </div>
-
-  <div class="quote-card mb-24">
-    <p>&ldquo;The real risk is not that this technology is imperfect. It&rsquo;s that others will quietly adopt it.&rdquo;</p>
-    <p style="font-size:14px; color:var(--text-secondary); margin-top:8px; font-family: 'Inter', sans-serif; font-style:normal;">&mdash; Rob Borley</p>
-  </div>
-
-  <div class="card card-violet card-sm" style="text-align:center;">
-    <p style="font-size:17px; line-height:1.6;">Apply this to Rob&rsquo;s own situation: the risk isn&rsquo;t that outbound is imperfect. <strong>It&rsquo;s that competitors are quietly building relationships</strong> with the CTOs and CIOs who should be talking to Dootrix.</p>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 8: GAP #2 — 9-MONTH SALES CYCLE -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="8">
-<div class="slide-inner">
-  <p class="eyebrow">Gap Analysis</p>
-  <h2 class="mb-32">Gap #2: A Sales Cycle That&rsquo;s Too Long for &pound;20M</h2>
-
-  <div class="card card-red card-sm mb-24">
-    <ul class="bullet-list red">
-      <li><strong>9 months</strong> from first contact to close</li>
-      <li>For enterprise Agentic AI projects, multiple decision makers need to align</li>
-      <li>Current approach: one-to-one conversations &rarr; slow consensus building</li>
-    </ul>
-  </div>
-
-  <div class="card card-violet card-sm mb-24">
-    <h4 class="text-accent mb-12">The Workshop Method Compresses This</h4>
-    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">Get CTO, CIO, Head of Digital, and VP Engineering in <strong style="color:var(--text);">ONE room</strong>. Present a 60-minute Agentic AI workshop. Demonstrate authority. ALL decision makers hear the same message.</p>
-    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;">Consensus happens in the room, not over 6 months of internal emails.</p>
-  </div>
-
-  <div class="card card-green card-sm" style="text-align:center;">
-    <p style="font-size:20px; font-weight:600;">Result: compress <span class="text-red">9 months</span> to <span class="text-green">3-4 months</span></p>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 9: GAP #3 — NO OUTBOUND ENGINE -->
-<!-- ============================================================ -->
+<!-- SLIDE 9: 97% MARKET AWARENESS PYRAMID -->
 <div class="slide" data-slide="9">
 <div class="slide-inner">
-  <p class="eyebrow">Gap Analysis</p>
-  <h2 class="mb-32">Gap #3: No Engine, No Control</h2>
+  <h2 class="mb-8">&#x274C; 97% of Your Market Doesn&rsquo;t Know They Need You</h2>
+  <p class="subtitle mb-32">Most enterprises don&rsquo;t know what they don&rsquo;t know about AI. The ones that do are already talking to your competitors.</p>
 
-  <div class="card card-red card-sm mb-24">
-    <ul class="bullet-list red">
-      <li>Growth to date = organic, referral, inbound from content</li>
-      <li>This is great but <strong>not scalable or predictable</strong></li>
-      <li>What happens when the referral well runs dry?</li>
-      <li>Rob&rsquo;s Feb 5 note: &ldquo;CAN&rsquo;T TRUST IT&rdquo; &mdash; cold outreach alone doesn&rsquo;t work for enterprise</li>
-    </ul>
+  <div class="card mb-32" style="padding:32px 40px;">
+    <div class="pyramid-container">
+      <div class="pyramid-tier" style="width:120px; background:var(--green);">3%</div>
+      <p class="pyramid-tier-label">Actively buying now</p>
+      <div class="pyramid-tier" style="width:200px; background:rgba(34,197,94,0.5);">7%</div>
+      <p class="pyramid-tier-label">Open to it but not looking</p>
+      <div class="pyramid-tier" style="width:340px; background:var(--amber);">30%</div>
+      <p class="pyramid-tier-label">Know they have a problem but not acting</p>
+      <div class="pyramid-tier" style="width:480px; background:rgba(245,158,11,0.5);">30%</div>
+      <p class="pyramid-tier-label">Don&rsquo;t think they have a problem</p>
+      <div class="pyramid-tier" style="width:620px; background:var(--red);">30%</div>
+      <p class="pyramid-tier-label">Don&rsquo;t know what they don&rsquo;t know</p>
+    </div>
   </div>
 
-  <div class="card card-violet card-sm mb-24">
-    <h4 class="text-accent mb-12">But Cold Outreach + Credibility = Different Motion</h4>
-    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px;">Cold outreach + credibility (case studies, workshops, Rob&rsquo;s brand) = a completely different motion than generic cold pitches.</p>
-    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;"><strong style="color:var(--text);">Invite to a free workshop &#8800; cold pitch.</strong> It&rsquo;s a value-first approach. You&rsquo;re not selling &mdash; you&rsquo;re demonstrating expertise to a room full of decision makers who chose to attend.</p>
+  <div class="grid-2 mb-24">
+    <div class="card card-red card-sm">
+      <h4 class="text-red mb-8">The Problem</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">Most of your market is <strong style="color:var(--text);">problem-unaware</strong>. They don&rsquo;t know what multi-agent orchestration could do for their business. They don&rsquo;t know what they&rsquo;re missing. And there&rsquo;s so much uncertainty about where AI will be in 1-2 years that many are frozen.</p>
+    </div>
+    <div class="card card-green card-sm">
+      <h4 class="text-green mb-8">The Opportunity</h4>
+      <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">The ONLY thing that moves problem-unaware buyers is <strong style="color:var(--text);">brand and trust</strong>. Workshops, outbound, content &mdash; you&rsquo;re not selling to them, you&rsquo;re <strong style="color:var(--text);">educating them</strong>. When they ARE ready, you&rsquo;re the only logical choice because you were the one who helped them understand.</p>
+    </div>
   </div>
+
+  <p class="playfair-quote text-center" style="max-width:720px; margin:0 auto;">&ldquo;When that 97% IS ready &mdash; will they think of Dootrix, or one of your 53 competitors? The answer: <strong class="text-accent">Workshops + Outbound + Content</strong> = you&rsquo;re the one they remember.&rdquo;</p>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 10: COST OF INACTION -->
-<!-- ============================================================ -->
+<!-- SLIDE 10: GAP #1 — NO OUTBOUND ENGINE -->
 <div class="slide" data-slide="10">
 <div class="slide-inner">
-  <h2 class="mb-8">What Happens If Nothing Changes?</h2>
-  <p class="subtitle mb-32">The math behind inaction</p>
+  <p class="eyebrow">Diagnostic: Gap #1</p>
+  <h2 class="mb-32">&#x26A0;&#xFE0F; No Outbound Acquisition Engine Filling the Top of the Pipeline</h2>
 
-  <div class="card card-red card-sm mb-24">
-    <div class="grid-2" style="gap:32px;">
-      <div>
-        <h4 class="text-red mb-12">The Pipeline Gap</h4>
-        <ul class="bullet-list red" style="font-size:16px;">
-          <li>Current pipeline reliance: organic/referral &rarr; unpredictable</li>
-          <li>&pound;20M target &divide; avg deal size &pound;150K = <strong style="color:var(--text);">133 new deals</strong> needed in 3 years</li>
-          <li>= ~44 deals/year = <strong style="color:var(--text);">~4 new clients per month</strong></li>
-          <li>With a 9-month cycle, you need 4 months of pipeline AHEAD at all times</li>
-        </ul>
+  <div class="gap-section">
+    <h4>The Gap &mdash; Where Your Business Stands Today</h4>
+    <p>Rob, your team needs <strong style="color:var(--text);">more calls on the calendar</strong>. That&rsquo;s what you told us on Feb 5. You&rsquo;re doing 16 events and podcasts, publishing weekly on LinkedIn, running free workshops &mdash; but the content is reaching thought leaders and peers, not the CTOs and CIOs who buy. The top of your funnel isn&rsquo;t being filled systematically. Growth to date has been organic and referral-based &mdash; brilliant for getting to sub-&pound;5M, but not scalable to sustained 50%+ growth.</p>
+  </div>
+
+  <div class="gap-section">
+    <h4>Root Cause</h4>
+    <p>There&rsquo;s no repeatable system that puts Dootrix in front of fresh decision makers every single week. The workshops are running, but there&rsquo;s no outbound engine driving the RIGHT people into those rooms. No cold email infrastructure warming up CTOs. No LinkedIn sequences targeting CIOs. The content is there &mdash; the distribution to buyers isn&rsquo;t.</p>
+  </div>
+
+  <!-- Visual: Current vs Target -->
+  <div class="card mb-24" style="padding:20px; border-color:rgba(124,58,237,0.2);">
+    <div class="flow-row">
+      <div class="flow-box" style="background:rgba(239,68,68,0.1);">
+        <strong style="color:var(--red);">Current</strong><br><span style="color:var(--text-secondary);">Content &rarr; Peers &amp; thought leaders</span><br><span style="color:var(--red); font-size:11px;">Low pipeline conversion</span>
       </div>
-      <div>
-        <h4 class="text-red mb-12">The Compounding Cost</h4>
-        <ul class="bullet-list red" style="font-size:16px;">
-          <li>Today: how many qualified conversations are happening per month? &rarr; Not enough</li>
-          <li>Every month without outbound = <strong style="color:var(--text);">4+ fewer deals</strong> closing 9 months from now</li>
-          <li>In 12 months: competitors who started outbound TODAY will have <strong style="color:var(--text);">50-100 relationships</strong> Dootrix doesn&rsquo;t</li>
-        </ul>
+      <span class="flow-arrow" style="font-size:24px;">&#x27A1;</span>
+      <div class="flow-box-green">
+        <strong style="color:var(--green);">Target</strong><br><span style="color:var(--text-secondary);">Outbound &rarr; CTOs, CIOs, Heads of Digital</span><br><span style="color:var(--green); font-size:11px;">Qualified conversations on calendar</span>
       </div>
     </div>
   </div>
 
-  <div class="grid-3">
-    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
-      <p style="font-size:42px; font-weight:700; color:var(--red); margin-bottom:8px;">4/mo</p>
-      <p class="small text-secondary">New clients needed to hit &pound;20M in 3 years</p>
-    </div>
-    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
-      <p style="font-size:42px; font-weight:700; color:var(--amber); margin-bottom:8px;">9 mo</p>
-      <p class="small text-secondary">Average sales cycle &mdash; pipeline must start now</p>
-    </div>
-    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
-      <p style="font-size:42px; font-weight:700; color:var(--red); margin-bottom:8px;">53</p>
-      <p class="small text-secondary">Competitors building relationships while Dootrix waits</p>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 11: TOTAL ADDRESSABLE MARKET -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="11">
-<div class="slide-inner">
-  <h2 class="mb-8">4,500+ UK Organisations Need What Dootrix Builds</h2>
-  <p class="subtitle mb-32">Broken down by the six verticals where you already have proof</p>
-
-  <div class="grid-3 mb-24">
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Financial Services &amp; Insurance</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">800-1,200</p>
-      <p class="small text-secondary mb-8">companies</p>
-      <p class="small" style="color:var(--green);">Proof: Confused.com, GBG</p>
-    </div>
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Public Sector &amp; Regulators</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">600-900</p>
-      <p class="small text-secondary mb-8">organisations</p>
-      <p class="small" style="color:var(--green);">Proof: Ofcom, Crown Commercial</p>
-    </div>
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Transport &amp; Infrastructure</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">400-600</p>
-      <p class="small text-secondary mb-8">companies</p>
-      <p class="small" style="color:var(--green);">Proof: Heathrow, P&amp;O Ferries</p>
-    </div>
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Energy &amp; CleanTech</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">400-700</p>
-      <p class="small text-secondary mb-8">companies</p>
-      <p class="small" style="color:var(--green);">Proof: Gridserve, Fynlo</p>
-    </div>
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Scale-Up Tech</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">1,500-2,500</p>
-      <p class="small text-secondary mb-8">companies</p>
-      <p class="small" style="color:var(--green);">Proof: ProveIt, Support Guru, Casedo</p>
-    </div>
-    <div class="card card-sm">
-      <h4 style="font-size:17px;" class="mb-8">Retail &amp; Consumer</h4>
-      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">800-1,500</p>
-      <p class="small text-secondary mb-8">companies</p>
-      <p class="small" style="color:var(--green);">Proof: Confused.com, PureGym</p>
-    </div>
+  <div class="card card-red mb-24">
+    <h4 class="text-red mb-8">Cost of Inaction</h4>
+    <p style="font-size:17px; color:var(--text-secondary);">Every month without outbound = <strong style="color:var(--text);">zero new qualified conversations from proactive effort</strong>. With 53 competitors ramping their positioning in Agentic AI, the decision makers Dootrix should be talking to are building relationships with someone else right now.</p>
   </div>
 
-  <div class="glow-card">
-    <p class="text-secondary mb-8" style="font-size:14px; text-transform:uppercase; letter-spacing:0.1em;">Total Targetable UK Organisations</p>
-    <p style="font-size:52px; font-weight:700; color:var(--green);">4,500 &ndash; 7,400</p>
-    <p class="text-secondary mt-12" style="font-size:16px;">And Dootrix has a case study for every single one.</p>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 12: TRANSITION — INTRODUCING THE GROWTH ENGINE -->
-<!-- ============================================================ -->
-<div class="slide center-v" data-slide="12">
-<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
-  <div class="section-divider" style="margin-bottom:40px;"></div>
-  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">INTRODUCING THE GROWTH ENGINE</p>
-  <h1 style="font-size:44px; margin-bottom:24px; text-align:center;">Three Pillars to Fill Your Pipeline,<br>Compress Your Sales Cycle,<br>and Hit &pound;20M</h1>
-  <div class="section-divider" style="margin-top:32px;"></div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 13: PILLAR 1 — GTM STRATEGY & OFFER POSITIONING -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="13">
-<div class="slide-inner">
-  <p class="eyebrow">Strategic Foundation</p>
-  <h2 class="mb-32">Pillar 1: GTM Strategy, Offer Creation &amp; Case Study Support</h2>
-
-  <details open>
-    <summary>Workshop &amp; Design Sprint Positioning</summary>
-    <div class="detail-body">
-      <ul>
-        <li>Refine the free Agentic Workshop as a <strong>lead generation tool</strong> (not just brand awareness)</li>
-        <li>Position the AI Design Sprint (&pound;5K-40K) as the clear next step from workshop</li>
-        <li>Create urgency messaging around the Agentic AI adoption window</li>
-      </ul>
-    </div>
-  </details>
-
-  <details>
-    <summary>Lead Magnet Creation</summary>
-    <div class="detail-body">
-      <ul>
-        <li>Build a downloadable asset for each ICP segment (e.g., &ldquo;Agentic AI Readiness Scorecard for Financial Services&rdquo;)</li>
-        <li>Gate behind email capture for outbound nurture</li>
-        <li>Use Rob&rsquo;s existing thought leadership as source material</li>
-      </ul>
-    </div>
-  </details>
-
-  <details>
-    <summary>Case Study Development</summary>
-    <div class="detail-body">
-      <ul>
-        <li>Package Confused.com, Heathrow, Gridserve, Ofcom stories into <strong>vertical-specific proof</strong></li>
-        <li>Create ROI narratives: &ldquo;400% download increase,&rdquo; &ldquo;50% telecom cost reduction&rdquo;</li>
-        <li>Format for LinkedIn, email sequences, and workshop presentations</li>
-      </ul>
-    </div>
-  </details>
-
-  <details>
-    <summary>Messaging &amp; Positioning</summary>
-    <div class="detail-body">
-      <ul>
-        <li>Refine the &ldquo;specialist vs. generalist&rdquo; pitch for each ICP segment</li>
-        <li>Create email copy, LinkedIn messaging, and workshop invite templates</li>
-        <li>Align all outbound messaging with Rob&rsquo;s anti-hype, substance-first brand</li>
-      </ul>
-    </div>
-  </details>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 14: PILLAR 2 — OUTBOUND ENGINE -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="14">
-<div class="slide-inner">
-  <p class="eyebrow">LinkedIn + Cold Email Across 6 Verticals</p>
-  <h2 class="mb-32">Pillar 2: The Outbound Engine</h2>
-
-  <div class="grid-2 mb-24">
-    <div class="card card-sm">
-      <h4 class="mb-12">LinkedIn Outreach</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Target: CTOs, CIOs, Heads of Digital, VPs of Engineering across 6 ICP segments</li>
-        <li>Personalised connection requests referencing Dootrix case studies</li>
-        <li>Workshop invitation sequences</li>
-        <li>Thought leadership sharing (Rob&rsquo;s articles + podcast episodes)</li>
-        <li>Volume: <strong>50-100 new connections/week</strong></li>
-      </ul>
-    </div>
-    <div class="card card-sm">
-      <h4 class="mb-12">Cold Email</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>AI-personalised email sequences for each ICP segment</li>
-        <li>Lead with value: workshop invite, case study, or lead magnet</li>
-        <li>Multi-step sequences: 4-5 touches over 3 weeks</li>
-        <li>Infrastructure: dedicated domains, warmup, deliverability monitoring</li>
-        <li>Volume: <strong>200-400 emails/week</strong></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="card card-violet card-sm">
-    <h4 class="text-accent mb-12">Workshop / Keynote Method</h4>
-    <ul class="bullet-list" style="font-size:16px;">
-      <li>Monthly online workshop: &ldquo;Agentic AI for [Vertical]&rdquo; &mdash; 20-30 seats</li>
-      <li>Rob presents a 45-60 min session demonstrating authority</li>
-      <li>Multiple decision makers from target accounts attend together</li>
-      <li>We provide: templates, slide frameworks, follow-up sequences, attendee tracking</li>
-      <li>We DON&rsquo;T host for you &mdash; Rob presents, we make sure everything else runs</li>
-      <li>Post-workshop: automated + manual follow-up within 24 hours</li>
-      <li>Goal: <strong>2-3 workshops/month &rarr; 40-60 qualified decision makers in the room each month</strong></li>
+  <div class="card card-violet">
+    <h4 class="text-accent mb-12">Questions for Rob</h4>
+    <ul class="question-list">
+      <li>&ldquo;Of the 16 events and podcasts you&rsquo;ve done, how many converted directly into qualified pipeline?&rdquo;</li>
+      <li>&ldquo;If you need 4+ new clients per month to sustain 50% growth &mdash; how many qualified conversations are happening right now?&rdquo;</li>
+      <li>&ldquo;What&rsquo;s the cost of a single lost deal to a competitor who got in front of the CTO first?&rdquo;</li>
     </ul>
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 15: PILLAR 3 — AI LEAD MANAGEMENT -->
-<!-- ============================================================ -->
+<!-- SLIDE 11: GAP #2 — 9-MONTH SALES CYCLE -->
+<div class="slide" data-slide="11">
+<div class="slide-inner">
+  <p class="eyebrow">Diagnostic: Gap #2</p>
+  <h2 class="mb-32">&#x26A0;&#xFE0F; A 9-Month Sales Cycle Is Bleeding Revenue</h2>
+
+  <div class="gap-section">
+    <h4>The Gap &mdash; Time Is Your Biggest Cost</h4>
+    <p>Rob, a 9-month average from first contact to close means enterprise Agentic AI projects require <strong style="color:var(--text);">multiple decision makers to align</strong>. CTO says yes, but CIO needs convincing. Head of Digital is on board, but VP Engineering wants a technical assessment. Each one-to-one conversation adds weeks. Internal consensus-building adds months.</p>
+  </div>
+
+  <div class="gap-section">
+    <h4>Root Cause</h4>
+    <p>When you&rsquo;re having one-to-one conversations with individual stakeholders, you&rsquo;re building consensus sequentially. Decision Maker A talks to you, then has to convince Decision Maker B internally, who then needs to loop in Decision Maker C. That&rsquo;s 9 months of internal emails, slide decks forwarded, and &ldquo;let me check with my team.&rdquo;</p>
+  </div>
+
+  <!-- Visual: Current vs Compressed -->
+  <div class="grid-2 mb-24">
+    <div class="card card-red card-sm">
+      <p style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:12px;">CURRENT: SEQUENTIAL</p>
+      <div style="font-size:13px; line-height:2;">
+        <div>Meet CTO &rarr; <span style="color:var(--text-secondary);">2 months</span></div>
+        <div>CTO pitches CIO internally &rarr; <span style="color:var(--text-secondary);">2 months</span></div>
+        <div>CIO loops in VP Eng &rarr; <span style="color:var(--text-secondary);">2 months</span></div>
+        <div>Budget approval &rarr; <span style="color:var(--text-secondary);">2 months</span></div>
+        <div>Contract &rarr; <span style="color:var(--text-secondary);">1 month</span></div>
+        <div style="margin-top:8px;"><strong style="color:var(--red); font-size:16px;">= 9 months</strong></div>
+      </div>
+    </div>
+    <div class="card card-green card-sm">
+      <p style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:12px;">WITH WORKSHOP METHOD</p>
+      <div style="font-size:13px; line-height:2;">
+        <div>CTO, CIO, VP Eng ALL in one room &rarr; <span style="color:var(--text-secondary);">1 session</span></div>
+        <div>Rob demonstrates authority live &rarr; <span style="color:var(--text-secondary);">same day</span></div>
+        <div>Consensus happens in the room &rarr; <span style="color:var(--text-secondary);">same day</span></div>
+        <div>Follow-up with aligned team &rarr; <span style="color:var(--text-secondary);">1-2 months</span></div>
+        <div>Contract &rarr; <span style="color:var(--text-secondary);">1 month</span></div>
+        <div style="margin-top:8px;"><strong style="color:var(--green); font-size:16px;">= 3-4 months</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-red mb-24">
+    <h4 class="text-red mb-8">Cost of Inaction</h4>
+    <p style="font-size:17px; color:var(--text-secondary);">At an average deal size of &pound;100K+, every month you shave off the sales cycle is another deal closed sooner. <strong style="color:var(--text);">Compress from 9 months to 4 months across 10 deals = 50 months of revenue pulled forward.</strong> That&rsquo;s the difference between hitting 50% growth and stalling.</p>
+  </div>
+
+  <div class="card card-violet">
+    <h4 class="text-accent mb-12">Questions for Rob</h4>
+    <ul class="question-list">
+      <li>&ldquo;How many deals in the last year stalled because you couldn&rsquo;t get all decision makers aligned?&rdquo;</li>
+      <li>&ldquo;What would it mean if every deal closed 5 months faster?&rdquo;</li>
+      <li>&ldquo;If you got the CTO, CIO, and VP Engineering in one room monthly &mdash; what would that be worth?&rdquo;</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 12: GAP #3 — BRAND & CREDIBILITY -->
+<div class="slide" data-slide="12">
+<div class="slide-inner">
+  <p class="eyebrow">Diagnostic: Gap #3</p>
+  <h2 class="mb-32">&#x26A0;&#xFE0F; When Everything Is Commoditised, Brand Is the Moat</h2>
+
+  <div class="gap-section">
+    <h4>The Gap &mdash; The Credibility Race</h4>
+    <p>Rob, you said it: <strong style="color:var(--text);">&ldquo;When anyone can build anything, the cost of poor judgement becomes higher.&rdquo;</strong> That&rsquo;s true for your clients &mdash; and it&rsquo;s true for you. With Claude Code, Codex, and every AI tool levelling the playing field on delivery, the only thing that makes enterprise buyers choose YOU over the 53 other consultancies is <strong style="color:var(--text);">trust</strong>. Trust in your brand. Trust in Rob Borley as the authority. Trust that Dootrix is at the bleeding edge.</p>
+  </div>
+
+  <div class="gap-section">
+    <h4>Root Cause</h4>
+    <p>Your brand is strong within your existing network. But outside it? The CTOs and CIOs making &pound;100K+ buying decisions need to KNOW you before they need you. They need to have seen Rob speak. They need to have read your case studies. They need to associate &ldquo;Agentic AI done right&rdquo; with Dootrix &mdash; before the buying cycle even begins. That doesn&rsquo;t happen without systematic outbound distribution of your authority.</p>
+  </div>
+
+  <!-- Visual: Trust equation -->
+  <div class="card mb-24" style="padding:24px 32px; border-color:rgba(124,58,237,0.2);">
+    <p style="font-size:13px; font-weight:600; color:var(--accent); margin-bottom:16px; letter-spacing:0.05em; text-align:center;">THE TRUST EQUATION FOR ENTERPRISE AI</p>
+    <div class="flow-row">
+      <div class="flow-box">
+        <strong>&#x1F3A4; Rob&rsquo;s Authority</strong><br><span style="color:var(--text-secondary);">Podcasts, LinkedIn, events</span>
+      </div>
+      <span style="color:var(--accent); font-size:18px; font-weight:700; flex-shrink:0;">+</span>
+      <div class="flow-box">
+        <strong>&#x1F4CA; Proof</strong><br><span style="color:var(--text-secondary);">Heathrow, Confused.com, Ofcom</span>
+      </div>
+      <span style="color:var(--accent); font-size:18px; font-weight:700; flex-shrink:0;">+</span>
+      <div class="flow-box">
+        <strong>&#x1F4E2; Distribution</strong><br><span style="color:var(--text-secondary);">Outbound to the RIGHT buyers</span>
+      </div>
+      <span style="color:var(--accent); font-size:18px; font-weight:700; flex-shrink:0;">=</span>
+      <div class="flow-box-green">
+        <strong style="color:var(--green);">&#x1F3C6; Brand Moat</strong><br><span style="color:var(--text-secondary);">They call YOU first</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-red mb-24">
+    <h4 class="text-red mb-8">Cost of Inaction</h4>
+    <p style="font-size:17px; color:var(--text-secondary);">Your anti-hype, substance-first positioning is EXACTLY what enterprise buyers want. But if they never see it, it doesn&rsquo;t exist. <strong style="color:var(--text);">The competitor who builds the trusted brand first captures the relationships that should be yours &mdash; and in enterprise, once a relationship is built, it&rsquo;s almost impossible to displace.</strong></p>
+  </div>
+
+  <div class="card card-violet">
+    <h4 class="text-accent mb-12">Questions for Rob</h4>
+    <ul class="question-list">
+      <li>&ldquo;When a CTO Googles 'Agentic AI consultancy UK' today &mdash; does Dootrix come up, or one of the 53 competitors?&rdquo;</li>
+      <li>&ldquo;You&rsquo;re already running n8n and building multi-agent systems. What percentage of your ideal buyers know that?&rdquo;</li>
+      <li>&ldquo;If another consultancy starts being seen as THE Agentic AI authority before Dootrix &mdash; what does that cost over 5 years?&rdquo;</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 13: COST OF INACTION SUMMARY -->
+<div class="slide" data-slide="13">
+<div class="slide-inner">
+  <h2 class="text-center mb-12">&#x1F4B0; The Cost of Doing Nothing</h2>
+  <div class="section-divider"></div>
+
+  <div class="gap-visual mb-32">
+    <div class="gap-box" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2);">
+      <p class="small text-red" style="font-weight:600; margin-bottom:4px;">CURRENT</p>
+      <p style="font-size:32px; font-weight:700; color:var(--red);">~&pound;4M</p>
+      <p class="small text-secondary">74% growth but slowing</p>
+    </div>
+    <div class="gap-arrow">
+      <span style="font-size:14px; color:var(--accent); font-weight:600;">THE GAP</span>
+      <span style="font-size:28px;">&rarr;</span>
+      <span style="font-size:12px; color:var(--text-secondary);">No engine to bridge it</span>
+    </div>
+    <div class="gap-box" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2);">
+      <p class="small text-green" style="font-weight:600; margin-bottom:4px;">TARGET</p>
+      <p style="font-size:32px; font-weight:700; color:var(--green);">50%+ YoY</p>
+      <p class="small text-secondary">Sustained growth trajectory</p>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-32">
+    <div class="card stat">
+      <p class="num text-red">4+</p>
+      <p class="label">new clients needed per month to sustain 50% growth</p>
+    </div>
+    <div class="card stat">
+      <p class="num text-amber">9 mo</p>
+      <p class="label">average sales cycle &mdash; pipeline must start NOW</p>
+    </div>
+    <div class="card stat">
+      <p class="num">53</p>
+      <p class="label">competitors building relationships while Dootrix waits</p>
+    </div>
+  </div>
+
+  <div class="card mb-24" style="padding:28px 36px;">
+    <p style="font-size:18px; line-height:1.7; color:var(--text-secondary);">Rob, every month without an outbound engine, you&rsquo;re not just missing revenue &mdash; you&rsquo;re <strong style="color:var(--text);">losing the opportunity window</strong>. At &pound;100K+ average deal size, even <strong style="color:var(--text);">2 missed deals per month = &pound;200K+ in unrealised revenue</strong>. Over 12 months of inaction: <strong style="color:var(--red);">&pound;2.4M+ left on the table.</strong> And the relationships those buyers build with competitors? Those become almost impossible to displace.</p>
+  </div>
+
+  <p class="playfair-quote text-center" style="font-size:22px;">&ldquo;The home screen is now a conversation, and your brand competes for space inside it.&rdquo; &mdash; Rob Borley</p>
+</div>
+</div>
+
+<!-- SLIDE 14: SOLUTION OVERVIEW — THREE PILLARS -->
+<div class="slide center-v" data-slide="14">
+<div class="slide-inner">
+  <p class="eyebrow text-center">The Solution</p>
+  <h2 class="text-center mb-12">&#x1F680; The Dootrix Growth Engine</h2>
+  <div class="section-divider"></div>
+  <p class="subtitle text-center mb-40">Three pillars. Everything you need, nothing you don&rsquo;t.</p>
+  <div class="grid-3">
+    <div class="card text-center" style="border-top:3px solid var(--accent);">
+      <p class="eyebrow mb-12" style="font-size:12px;">Pillar 1</p>
+      <h3 class="mb-12">&#x1F3AF; GTM &amp; Offer Engine</h3>
+      <p class="text-secondary" style="font-size:16px;"><strong style="color:var(--text);">Solves:</strong> Wrong audience, unclear offers, long cycles, AI uncertainty</p>
+      <p class="text-secondary mt-12" style="font-size:15px;">Lower-ticket entry points that let buyers experience Dootrix&rsquo;s true value before committing to 6-figure projects.</p>
+    </div>
+    <div class="card text-center" style="border-top:3px solid var(--accent);">
+      <p class="eyebrow mb-12" style="font-size:12px;">Pillar 2</p>
+      <h3 class="mb-12">&#x26A1; Dual Outbound Engine</h3>
+      <p class="text-secondary" style="font-size:16px;"><strong style="color:var(--text);">Solves:</strong> Empty top of funnel, no qualified conversations</p>
+      <p class="text-secondary mt-12" style="font-size:15px;">Two pipelines: Cold email fills the podcast. LinkedIn fills the keynotes. Both fill the calendar with CTOs and CIOs.</p>
+    </div>
+    <div class="card text-center" style="border-top:3px solid var(--accent);">
+      <p class="eyebrow mb-12" style="font-size:12px;">Pillar 3</p>
+      <h3 class="mb-12">&#x1F504; Sales Acceleration</h3>
+      <p class="text-secondary" style="font-size:16px;"><strong style="color:var(--text);">Solves:</strong> 9-month cycle, leads falling through cracks</p>
+      <p class="text-secondary mt-12" style="font-size:15px;">AI-powered lead management, workshop follow-up automation, and pipeline tracking. Nothing gets lost.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 15: PILLAR 1 — GTM, OFFER & POSITIONING -->
 <div class="slide" data-slide="15">
 <div class="slide-inner">
-  <p class="eyebrow">Nothing Falls Through the Cracks</p>
-  <h2 class="mb-32">Pillar 3: AI-Powered Lead Management &amp; Sales Support</h2>
+  <p class="eyebrow">Pillar 1</p>
+  <h2 class="mb-8">&#x1F3AF; GTM Strategy, Offer Creation &amp; Case Study Support</h2>
+  <p class="subtitle mb-24">Turn Dootrix&rsquo;s expertise into irresistible entry points that overcome AI uncertainty</p>
 
-  <div class="grid-2 mb-24">
+  <!-- The core problem this pillar solves -->
+  <div class="card card-amber card-sm mb-24">
+    <p style="font-size:15px; font-weight:600; color:var(--amber); margin-bottom:8px;">&#x1F6A8; THE PROBLEM THIS SOLVES</p>
+    <p style="font-size:15px; color:var(--text-secondary); line-height:1.6;">Enterprise buyers are <strong style="color:var(--text);">uncertain about AI</strong>. They don&rsquo;t sign 6-figure contracts because they can&rsquo;t predict where things will be in 12 months. They need a <strong style="color:var(--text);">lower-ticket way to dip their toes in</strong> and experience Dootrix&rsquo;s value firsthand. That&rsquo;s what the workshop-to-sprint-to-program ladder solves.</p>
+  </div>
+
+  <!-- Offer ladder visual -->
+  <div class="card mb-24" style="padding:24px 32px; border-color:rgba(124,58,237,0.2);">
+    <p style="font-size:13px; font-weight:600; color:var(--accent); margin-bottom:16px; letter-spacing:0.05em; text-align:center;">&#x1F4C8; THE OFFER LADDER WE&rsquo;LL REFINE</p>
+    <div class="flow-row">
+      <div class="flow-box" style="background:rgba(34,197,94,0.08);">
+        <strong style="color:var(--green);">FREE</strong><br><span style="color:var(--text-secondary);">Agentic Workshop</span><br><span style="font-size:11px; color:var(--text-secondary);">4 hours, online</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box">
+        <strong>&pound;5-40K</strong><br><span style="color:var(--text-secondary);">AI Design Sprint</span><br><span style="font-size:11px; color:var(--text-secondary);">5 days</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box">
+        <strong>&pound;40-100K</strong><br><span style="color:var(--text-secondary);">Agentic Incubator</span><br><span style="font-size:11px; color:var(--text-secondary);">Pilot program</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box" style="background:rgba(124,58,237,0.15);">
+        <strong style="color:var(--accent);">&pound;100K+</strong><br><span style="color:var(--text-secondary);">Full Program</span><br><span style="font-size:11px; color:var(--text-secondary);">3-6 months</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- What we'll do — cards not dropdowns -->
+  <div class="grid-2 mb-16">
     <div class="card card-sm">
-      <h4 class="mb-12">AI Lead Qualification</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Every reply scored and categorised automatically</li>
-        <li>Hot leads escalated to Rob/David within minutes</li>
-        <li>Warm leads nurtured with content sequences</li>
+      <h4 class="mb-8" style="font-size:17px;">&#x1F3AF; Workshop &amp; Sprint Positioning</h4>
+      <ul style="font-size:14px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2705; Refine free Agentic Workshop as a <strong>lead gen tool</strong> (not just brand awareness)</li>
+        <li>&#x2705; Position AI Design Sprint as the clear next step from workshop</li>
+        <li>&#x2705; Create urgency messaging around the adoption window</li>
+        <li>&#x2705; Build vertical-specific workshop variants (FinServ, Public Sector, etc.)</li>
       </ul>
     </div>
     <div class="card card-sm">
-      <h4 class="mb-12">Automated Follow-Up</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Workshop attendees get personalised follow-up within 24 hours</li>
-        <li>LinkedIn connections get content drip sequences</li>
-        <li>Email responders get multi-touch nurture with case studies</li>
+      <h4 class="mb-8" style="font-size:17px;">&#x1F4D1; Lead Magnet Creation</h4>
+      <ul style="font-size:14px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2705; &ldquo;Agentic AI Readiness Scorecard&rdquo; for each ICP segment</li>
+        <li>&#x2705; Gate behind email capture for outbound nurture</li>
+        <li>&#x2705; Use Rob&rsquo;s existing thought leadership as source material</li>
+        <li>&#x2705; Format for LinkedIn, email sequences, and workshops</li>
       </ul>
     </div>
     <div class="card card-sm">
-      <h4 class="mb-12">Meeting Booking</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Calendar integration for seamless scheduling</li>
-        <li>Confirmation + reminder sequences</li>
-        <li>Pre-call brief generated automatically</li>
+      <h4 class="mb-8" style="font-size:17px;">&#x1F3C6; Case Study Development</h4>
+      <ul style="font-size:14px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2705; Package Confused.com, Heathrow, Gridserve, Ofcom into <strong>vertical-specific proof</strong></li>
+        <li>&#x2705; Create ROI narratives: &ldquo;400% downloads,&rdquo; &ldquo;50% telecom cost cut&rdquo;</li>
+        <li>&#x2705; Format for LinkedIn, email, and workshop presentations</li>
       </ul>
     </div>
     <div class="card card-sm">
-      <h4 class="mb-12">Sales Support</h4>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Call prep for every qualified meeting</li>
-        <li>Follow-up email drafts after calls</li>
-        <li>Pipeline tracking and reporting</li>
-        <li>Workshop/keynote debrief and attendee analysis</li>
+      <h4 class="mb-8" style="font-size:17px;">&#x1F4AC; Messaging &amp; Positioning</h4>
+      <ul style="font-size:14px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2705; Refine the &ldquo;specialist vs. generalist&rdquo; pitch per ICP segment</li>
+        <li>&#x2705; Email copy, LinkedIn scripts, workshop invite templates</li>
+        <li>&#x2705; Align with Rob&rsquo;s anti-hype, substance-first brand</li>
       </ul>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 16: FREE BONUSES -->
-<!-- ============================================================ -->
+<!-- SLIDE 16: PILLAR 2 — DUAL OUTBOUND ENGINE -->
 <div class="slide" data-slide="16">
 <div class="slide-inner">
-  <h2 class="mb-32">Included at No Extra Cost</h2>
+  <p class="eyebrow">Pillar 2</p>
+  <h2 class="mb-8">&#x26A1; The Dual Outbound Engine</h2>
+  <p class="subtitle mb-24">Two separate pipelines that fill the top of your funnel with qualified decision makers</p>
 
-  <div class="grid-2">
-    <div class="card card-sm" style="border-top: 3px solid var(--green);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h4 style="margin-bottom:0;">Live Pipeline Dashboard</h4>
-        <span style="font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:3px 14px;">$500/mo value</span>
-      </div>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Real-time overview of all outreach activity</li>
-        <li>Workshop registration and attendance tracking</li>
-        <li>Lead status, pipeline stage, and conversion metrics</li>
-        <li>Weekly reports delivered to your inbox</li>
-      </ul>
+  <!-- Pipeline A: Cold Email → Podcast -->
+  <div class="card mb-24" style="border-color:rgba(124,58,237,0.25); border-left:4px solid var(--accent);">
+    <h4 class="mb-12" style="font-size:20px;">&#x1F4E7; Pipeline A: Cold Email &rarr; Podcast Guest Booking</h4>
+    <p style="font-size:15px; color:var(--text-secondary); margin-bottom:16px; line-height:1.6;">Cold email carries the volume. We target CTOs, CIOs, and Heads of Digital with personalised invitations to appear on Dootrix&rsquo;s podcast. <strong style="color:var(--text);">It&rsquo;s flattery, not sales.</strong> They come on as the expert. You build the relationship.</p>
+
+    <div style="font-size:14px; line-height:2; margin-bottom:16px;">
+      <div>&#x1F4E8; <strong style="color:var(--text);">200-400 emails/week</strong> via warmed inboxes</div>
+      <div>&darr; AI-personalised opening lines referencing their industry + challenges</div>
+      <div>&darr; Podcast invitation as the hook &mdash; &ldquo;We&rsquo;d love to feature you on Next Thing Now&rdquo;</div>
+      <div>&darr; 1.5% positive reply rate: <strong style="color:var(--text);">~15-20 interested replies/month</strong></div>
+      <div>&darr; 50% booking rate: <strong style="color:var(--text);">8-10 podcast guests booked/month</strong></div>
+      <div class="funnel-highlight mt-12">&#x1F3A4; <strong>8-10 decision makers on your podcast monthly &mdash; each one is a warm relationship</strong></div>
     </div>
-    <div class="card card-sm" style="border-top: 3px solid var(--green);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h4 style="margin-bottom:0;">Podcast Editing &amp; Repurposing</h4>
-        <span style="font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:3px 14px;">$1,500/mo value</span>
-      </div>
-      <ul class="bullet-list" style="font-size:16px;">
-        <li>Take &ldquo;The Next Thing Now&rdquo; long-form episodes</li>
-        <li>Edit and convert to 3-5 short-form clips per episode</li>
-        <li>Optimised for LinkedIn, YouTube Shorts, and social</li>
-        <li>Extend Rob&rsquo;s thought leadership reach without extra work</li>
-      </ul>
+
+    <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+      <li>&#x2705; 5-10 warmed sending inboxes, deliverability monitoring</li>
+      <li>&#x2705; AI reply classification &mdash; hot leads escalated instantly</li>
+      <li>&#x2705; Multi-step sequences: 4-5 touches over 3 weeks</li>
+    </ul>
+  </div>
+
+  <!-- Pipeline B: LinkedIn → Keynote -->
+  <div class="card mb-24" style="border-color:rgba(124,58,237,0.25); border-left:4px solid var(--accent);">
+    <h4 class="mb-12" style="font-size:20px;">&#x1F517; Pipeline B: LinkedIn &rarr; Keynote &amp; Workshop Attendees</h4>
+    <p style="font-size:15px; color:var(--text-secondary); margin-bottom:16px; line-height:1.6;">LinkedIn is the trust layer. Precision outreach to hand-picked decision makers with personalised invitations to Rob&rsquo;s monthly Agentic AI workshops. <strong style="color:var(--text);">Get 20-30 decision makers in one room &mdash; from the same company if possible.</strong></p>
+
+    <div style="font-size:14px; line-height:2; margin-bottom:16px;">
+      <div>&#x1F517; <strong style="color:var(--text);">50-100 connections/week</strong> hand-picked from 4,500+ UK organisations</div>
+      <div>&darr; Personalised connection requests referencing their specific challenges</div>
+      <div>&darr; Workshop invitation sequences: &ldquo;Agentic AI for [Their Vertical]&rdquo;</div>
+      <div>&darr; 25% accept rate: <strong style="color:var(--text);">25-50 new connections/month</strong></div>
+      <div>&darr; 15% workshop registration: <strong style="color:var(--text);">20-30 attendees/workshop</strong></div>
+      <div class="funnel-highlight mt-12">&#x1F3A4; <strong>2-3 workshops/month = 40-60 qualified decision makers in the room each month</strong></div>
+    </div>
+
+    <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+      <li>&#x2705; Rob presents 45-60 min &mdash; we handle everything else</li>
+      <li>&#x2705; Multiple decision makers from same account attend together &rarr; consensus in the room</li>
+      <li>&#x2705; Post-workshop: automated + manual follow-up within 24 hours</li>
+    </ul>
+  </div>
+
+  <!-- Proof -->
+  <div class="grid-2">
+    <div style="border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="assets/linkedin_outreach_dashboard.png" alt="LinkedIn outreach dashboard" style="width:100%; display:block;">
+      <p class="text-secondary text-center" style="font-size:12px; padding:8px;">Live campaign: <strong style="color:var(--green);">45% accept, 18% response</strong></p>
+    </div>
+    <div style="border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="assets/instantly_campaigns.png" alt="Instantly campaigns" style="width:100%; display:block;">
+      <p class="text-secondary text-center" style="font-size:12px; padding:8px;">Live campaign: <strong style="color:var(--green);">15K+ emails, 1,200+ replies</strong></p>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 17: VALUE STACK -->
-<!-- ============================================================ -->
+<!-- SLIDE 17: PILLAR 3 — LEAD MANAGEMENT & SALES ACCELERATION -->
 <div class="slide" data-slide="17">
 <div class="slide-inner">
-  <h2 class="mb-32">Everything You&rsquo;re Getting</h2>
+  <p class="eyebrow">Pillar 3</p>
+  <h2 class="mb-8">&#x1F504; Sales Acceleration &amp; Lead Management</h2>
+  <p class="subtitle mb-24">Reduce the sales cycle from 9 months to 3-4 months. Make sure nothing falls through the cracks.</p>
 
-  <div class="card mb-24">
-    <div class="value-line"><span>GTM Strategy &amp; Offer Positioning</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$3,000/mo</span></div>
-    <div class="value-line"><span>LinkedIn Outbound Engine (50-100/week)</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,500/mo</span></div>
-    <div class="value-line"><span>Cold Email Engine (200-400/week)</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,000/mo</span></div>
-    <div class="value-line"><span>Workshop/Keynote Setup &amp; Follow-Up</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,000/mo</span></div>
-    <div class="value-line"><span>AI Lead Management &amp; Qualification</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,500/mo</span></div>
-    <div class="value-line"><span>Sales Support &amp; Call Prep</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,000/mo</span></div>
-    <div class="value-line"><span>Live Pipeline Dashboard</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$500/mo</span></div>
-    <div class="value-line"><span>Podcast Editing &amp; Repurposing</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,500/mo</span></div>
-    <div class="value-line" style="border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom:16px; margin-bottom:8px;">
-      <span style="font-weight:700; font-size:18px;">TOTAL VALUE</span>
-      <span style="font-size:22px; font-weight:700; color:var(--text-secondary); text-decoration:line-through;">$14,000/mo</span>
+  <!-- Before / After -->
+  <div class="grid-2 mb-24" style="gap:12px;">
+    <div class="card card-red" style="padding:16px 18px;">
+      <p style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:10px;">&#x274C; RIGHT NOW</p>
+      <ul style="font-size:13px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2717; Workshop attendee shows interest &rarr; manual follow-up (if someone remembers)</li>
+        <li>&#x2717; Hot lead goes quiet &rarr; they disappear into a competitor&rsquo;s pipeline</li>
+        <li>&#x2717; Decision makers hear about you one at a time &rarr; 9-month consensus</li>
+        <li>&#x2717; No way to know which channel, message, or event is actually converting</li>
+      </ul>
+    </div>
+    <div class="card card-green" style="padding:16px 18px;">
+      <p style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:10px;">&#x2705; WITH THE SYSTEM</p>
+      <ul style="font-size:13px; line-height:1.7; padding-left:16px; list-style:none;">
+        <li>&#x2713; Workshop attendee shows interest &rarr; personalised follow-up within 24 hours</li>
+        <li>&#x2713; Hot lead goes quiet &rarr; auto-nurture re-engages with case studies</li>
+        <li>&#x2713; Decision makers in ONE room &rarr; consensus at the workshop</li>
+        <li>&#x2713; Live dashboard shows exactly what&rsquo;s working and what isn&rsquo;t</li>
+      </ul>
     </div>
   </div>
 
-  <div class="glow-card">
-    <p class="text-secondary mb-8" style="font-size:14px; text-transform:uppercase; letter-spacing:0.1em;">Your Investment</p>
-    <p style="font-size:56px; font-weight:700; color:var(--green);">$4,500<span style="font-size:22px; font-weight:400; color:var(--text-secondary);">/month</span></p>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 18: GUARANTEE -->
-<!-- ============================================================ -->
-<div class="slide center-v" data-slide="18">
-<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
-  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">OUR GUARANTEE</p>
-
-  <div class="glow-card" style="max-width:800px; margin:0 auto; padding:48px;">
-    <h2 style="font-size:36px; margin-bottom:24px; text-align:center; line-height:1.3;">15 qualified sales conversations with CTOs, CIOs, and Heads of Digital in 90 days &mdash; or we keep working for free until we hit it.</h2>
-
-    <div class="section-divider" style="margin:24px auto;"></div>
-
-    <p style="font-size:18px; color:var(--text-secondary); line-height:1.6; margin-bottom:24px;">A qualified conversation means a booked call with a decision maker at a company that fits your ICP &mdash; not a random chat.</p>
-
-    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;">That&rsquo;s 15 conversations in the door. At your average deal size of &pound;100K+, even <strong style="color:var(--green);">ONE closed deal covers your entire investment 7x over.</strong></p>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- SLIDE 19: INVESTMENT -->
-<!-- ============================================================ -->
-<div class="slide center-v" data-slide="19">
-<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center;">
-  <h2 class="mb-32">Investment</h2>
-
-  <div class="grid-2 mb-24" style="max-width:800px; width:100%; gap:32px;">
-    <div class="pricing-card">
-      <h3 class="mb-8" style="font-size:22px;">Monthly</h3>
-      <p class="price-big" style="color:var(--text);">$4,500</p>
-      <p class="text-secondary mb-16" style="font-size:15px;">/month</p>
-      <p class="text-secondary mb-20" style="font-size:15px;">3-month minimum commitment</p>
-      <div style="padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px;">
-        <p style="font-size:14px; color:var(--text-secondary);">Start with low risk, scale if it works</p>
+  <!-- Pipeline flow -->
+  <div class="card mb-24" style="padding:20px; border-color:rgba(124,58,237,0.2);">
+    <p style="font-size:13px; font-weight:600; color:var(--accent); margin-bottom:12px; letter-spacing:0.05em; text-align:center;">YOUR LEAD PIPELINE &mdash; AUTOMATED END-TO-END</p>
+    <div class="flow-row">
+      <div class="flow-box">
+        <strong>Lead Responds</strong><br><span style="color:var(--text-secondary);">Email or LinkedIn</span>
       </div>
-    </div>
-
-    <div class="pricing-card featured">
-      <div class="pricing-badge">SAVE $1,500</div>
-      <h3 class="mb-8" style="font-size:22px; margin-top:8px;">Pay in Full</h3>
-      <p class="price-strike">$13,500</p>
-      <p class="price-big" style="color:var(--green);">$12,000</p>
-      <p class="text-secondary mb-16" style="font-size:15px;">one-time</p>
-      <p class="text-secondary mb-20" style="font-size:15px;">Full 90 days paid upfront</p>
-      <div style="padding:12px 16px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:10px;">
-        <p style="font-size:14px; color:var(--green); font-weight:600;">Best value &mdash; and shows you&rsquo;re serious</p>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box">
+        <strong>AI Qualifies</strong><br><span style="color:var(--text-secondary);">&lt;60 sec</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box">
+        <strong>Hot Lead Alert</strong><br><span style="color:var(--text-secondary);">Instant notification</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box">
+        <strong>Auto Follow-Up</strong><br><span style="color:var(--text-secondary);">Workshop invite or call</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-box-green">
+        <strong style="color:var(--green);">Qualified Call</strong><br><span style="color:var(--text-secondary);">Pre-briefed</span>
       </div>
     </div>
   </div>
 
-  <p class="text-secondary" style="font-size:16px; text-align:center; max-width:600px;">That&rsquo;s $150/day. Less than a junior SDR intern. And you get a <strong style="color:var(--text);">5-person growth team + AI</strong>.</p>
+  <div class="grid-2">
+    <div class="card card-sm">
+      <h4 class="mb-8" style="font-size:17px;">&#x1F916; AI Lead Qualification</h4>
+      <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+        <li>&#x2705; Every reply scored and categorised automatically</li>
+        <li>&#x2705; Hot leads escalated to Rob/David within minutes</li>
+        <li>&#x2705; Warm leads nurtured with content sequences</li>
+        <li>&#x2705; Workshop attendees tracked with engagement scoring</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-8" style="font-size:17px;">&#x1F4C5; Workshop Follow-Up Engine</h4>
+      <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+        <li>&#x2705; Automated personalised follow-up within 24 hours</li>
+        <li>&#x2705; Attendee analysis: who engaged, who asked questions</li>
+        <li>&#x2705; Design Sprint booking sequences for interested attendees</li>
+        <li>&#x2705; We don&rsquo;t host &mdash; Rob presents, we manage everything else</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-8" style="font-size:17px;">&#x1F4CA; Pipeline Tracking</h4>
+      <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+        <li>&#x2705; Channel-by-channel breakdown</li>
+        <li>&#x2705; Weekly reporting and optimisation</li>
+        <li>&#x2705; Which emails, workshops, and messages convert</li>
+        <li>&#x2705; You will never wonder &ldquo;is this working?&rdquo;</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-8" style="font-size:17px;">&#x1F4E9; Nurture Engine</h4>
+      <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0;">
+        <li>&#x2705; 70%+ of leads who say &ldquo;not now&rdquo; buy within 12 months</li>
+        <li>&#x2705; Content drip: podcast clips, case studies, workshop invites</li>
+        <li>&#x2705; Re-engagement fires when leads go quiet for 14+ days</li>
+        <li>&#x2705; Multi-channel: email &rarr; LinkedIn &rarr; workshop invite</li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 20: 90-DAY TIMELINE -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="20">
+<!-- SLIDE 18: FREE BONUSES -->
+<div class="slide" data-slide="18">
 <div class="slide-inner">
-  <h2 class="mb-32">Your 90-Day Roadmap</h2>
+  <p class="eyebrow">Included Free</p>
+  <h2 class="mb-32">&#x1F381; Your Free Bonuses</h2>
+
+  <!-- Dashboard -->
+  <div class="card mb-24" style="border-color:rgba(34,197,94,0.2);">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+      <div>
+        <h4 class="mb-4">&#x1F4CA; Live Pipeline Dashboard</h4>
+        <p class="text-secondary" style="font-size:15px;">Real-time overview of your entire growth engine</p>
+      </div>
+      <span class="bonus-value">&pound;500/mo value</span>
+    </div>
+    <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0; margin-bottom:16px;">
+      <li>&#x2705; Real-time overview of all outreach, workshops, and pipeline activity</li>
+      <li>&#x2705; Lead status, pipeline stage, and conversion metrics at a glance</li>
+      <li>&#x2705; Weekly reports delivered to your inbox</li>
+      <li>&#x2705; Channel attribution &mdash; see exactly what&rsquo;s driving results</li>
+    </ul>
+    <div style="border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="assets/mission_control.jpg" alt="Live Pipeline Dashboard" style="width:100%; display:block;">
+    </div>
+  </div>
+
+  <!-- Podcast Editing -->
+  <div class="card" style="border-color:rgba(34,197,94,0.2);">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+      <div>
+        <h4 class="mb-4">&#x1F3A5; Podcast Editing &amp; Repurposing</h4>
+        <p class="text-secondary" style="font-size:15px;">Turn &ldquo;The Next Thing Now&rdquo; into a content machine</p>
+      </div>
+      <span class="bonus-value">&pound;2,500/mo value</span>
+    </div>
+    <ul style="font-size:14px; line-height:1.7; list-style:none; padding:0; margin-bottom:16px;">
+      <li>&#x2705; Take long-form podcast episodes and convert to 3-5 short-form clips</li>
+      <li>&#x2705; Optimised for LinkedIn, YouTube Shorts, and social distribution</li>
+      <li>&#x2705; Custom thumbnails, show notes, and repurposed written content</li>
+      <li>&#x2705; Extend Rob&rsquo;s thought leadership reach without any extra work</li>
+    </ul>
+    <div class="grid-2" style="gap:12px;">
+      <div style="border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+        <img src="assets/podcast_linkedin_content.png" alt="Podcast clips on LinkedIn" style="width:100%; display:block;">
+        <p class="text-secondary text-center" style="font-size:11px; padding:6px;">LinkedIn podcast clips driving engagement</p>
+      </div>
+      <div style="border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+        <img src="assets/podcast_youtube_content.png" alt="Podcast on YouTube" style="width:100%; display:block;">
+        <p class="text-secondary text-center" style="font-size:11px; padding:6px;">Full episodes building long-term authority</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 19: VALUE STACK -->
+<div class="slide" data-slide="19">
+<div class="slide-inner">
+  <p class="eyebrow">Everything You Get</p>
+  <h2 class="mb-32">&#x1F48E; The Complete Growth System</h2>
+
+  <p style="font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:16px;">Core System</p>
+
+  <details>
+    <summary>Pillar 1: GTM, Offer &amp; Positioning &mdash; <span class="text-accent" style="font-size:16px; margin-left:4px;">&pound;4,000 value</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Workshop &amp; Design Sprint positioning for each vertical</li>
+        <li>ICP research and lead magnet creation</li>
+        <li>Outbound messaging &amp; script library</li>
+        <li>Case study &amp; proof asset development</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Pillar 2: Dual Outbound Engine &mdash; <span class="text-accent" style="font-size:16px; margin-left:4px;">&pound;7,500/mo value</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>Cold email infrastructure &amp; podcast booking campaigns (200-400/week)</li>
+        <li>LinkedIn outbound &amp; workshop invitation campaigns (50-100/week)</li>
+        <li>AI-personalised sequences for 6 ICP verticals</li>
+        <li>A/B testing and continuous optimisation</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="mb-32">
+    <summary>Pillar 3: Sales Acceleration &amp; Lead Management &mdash; <span class="text-accent" style="font-size:16px; margin-left:4px;">&pound;4,000/mo value</span></summary>
+    <div class="detail-body">
+      <ul>
+        <li>AI lead qualification and routing</li>
+        <li>Workshop follow-up automation</li>
+        <li>Pipeline tracking and reporting</li>
+        <li>Nurture sequences and re-engagement</li>
+      </ul>
+    </div>
+  </details>
+
+  <p style="font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-secondary); margin-bottom:16px;">AI Automation Suite</p>
+
+  <div class="card card-sm mb-32" style="padding:20px 28px;">
+    <div class="value-line"><span>&#x1F916; AI SDR Auto-Reply (&lt;60 sec response)</span><span><s>&pound;2,000/mo</s></span></div>
+    <div class="value-line"><span>&#x1F3AF; Lead Scoring &amp; ICP Matching</span><span><s>&pound;1,500/mo</s></span></div>
+    <div class="value-line"><span>&#x1F4AC; AI Sales Coach (call analysis)</span><span><s>&pound;1,500/mo</s></span></div>
+    <div class="value-line"><span>&#x1F4F9; Content Repurposing Engine</span><span><s>&pound;1,200/mo</s></span></div>
+    <div class="value-line"><span>&#x1F399; Call Intelligence &amp; Transcription</span><span><s>&pound;800/mo</s></span></div>
+    <div class="value-line"><span>&#x1F50D; Live SDR Monitor &amp; Alerts</span><span><s>&pound;500/mo</s></span></div>
+  </div>
+
+  <p style="font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--green); margin-bottom:16px;">Free Bonuses</p>
+
+  <div class="card card-sm mb-32" style="padding:20px 28px; border-color:rgba(34,197,94,0.15);">
+    <div class="value-line"><span>&#x1F4CA; Live Pipeline Dashboard</span><span><s>&pound;500/mo</s></span></div>
+    <div class="value-line"><span>&#x1F3A5; Podcast Editing &amp; Repurposing</span><span><s>&pound;2,500/mo</s></span></div>
+  </div>
+
+  <div class="glow-card text-center">
+    <p class="text-secondary mb-8" style="font-size:16px;">90-DAY TOTAL VALUE</p>
+    <p style="font-size:48px; font-weight:700;"><s style="color:var(--text-secondary); font-size:48px;">&pound;80,000</s></p>
+    <p class="text-accent mt-12" style="font-size:20px; font-weight:600;">Your investment &rarr; see next slide</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 20: GUARANTEE -->
+<div class="slide center-v" data-slide="20">
+<div class="slide-inner">
+  <h2 class="text-center mb-12">&#x1F6E1; Results, or We Work for Free</h2>
+  <div class="section-divider"></div>
+
+  <div class="card card-green text-center" style="padding:48px; max-width:720px; margin:0 auto 32px;">
+    <h3 class="mb-32" style="font-size:26px;">Our Guarantee to Dootrix</h3>
+
+    <!-- Diagram -->
+    <div class="flow-row mb-32" style="gap:16px;">
+      <div style="background:rgba(34,197,94,0.1); border-radius:12px; padding:20px; flex:1 1 0; min-width:0;">
+        <p style="font-size:44px; font-weight:700; color:var(--green); line-height:1;">15+</p>
+        <p class="text-secondary mt-12" style="font-size:16px;">Qualified Conversations</p>
+        <p class="text-secondary" style="font-size:13px;">with CTOs, CIOs, and Heads of Digital who match your ICP</p>
+      </div>
+      <div style="background:rgba(34,197,94,0.1); border-radius:12px; padding:20px; flex:1 1 0; min-width:0;">
+        <p style="font-size:44px; font-weight:700; color:var(--green); line-height:1;">&pound;100K+</p>
+        <p class="text-secondary mt-12" style="font-size:16px;">Pipeline Created</p>
+        <p class="text-secondary" style="font-size:13px;">in 90 days &mdash; qualified opportunities in your CRM</p>
+      </div>
+    </div>
+
+    <p style="font-size:18px; line-height:1.7; max-width:560px; margin:0 auto;">If we don&rsquo;t hit these targets, we continue working at no additional cost until we do. <strong>The risk is entirely on us.</strong></p>
+  </div>
+
+  <div class="grid-2" style="max-width:720px; margin:0 auto;">
+    <div class="card card-sm text-center">
+      <p class="text-secondary mb-8" style="font-size:15px;">One closed deal at your average is</p>
+      <p style="font-size:28px; font-weight:700; margin-bottom:4px;"><span class="text-green">&pound;100,000+</span></p>
+      <p class="text-secondary" style="font-size:15px;">pays for the entire engagement <strong class="text-green">8x over</strong></p>
+    </div>
+    <div class="card card-sm text-center">
+      <p class="text-secondary mb-8" style="font-size:15px;">Your daily investment</p>
+      <p style="font-size:28px; font-weight:700; margin-bottom:4px;">&pound;133<span style="font-size:16px; font-weight:400; color:var(--text-secondary);">/day</span></p>
+      <p class="text-secondary" style="font-size:15px;">for a 5-person team + AI automation suite</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 21: 90-DAY TIMELINE -->
+<div class="slide" data-slide="21">
+<div class="slide-inner">
+  <h2 class="mb-32">&#x1F5D3; Your 90-Day Growth Sprint</h2>
 
   <div class="tl-grid">
     <div class="tl-card">
-      <span class="tl-badge tl-badge-purple">Week 1-2</span>
-      <h4>Foundation</h4>
+      <span class="tl-badge tl-badge-purple">Days 1-7</span>
+      <h4>Kickoff &amp; Strategy</h4>
       <ul>
-        <li>ICP definition and lead list building</li>
-        <li>Email domain setup and warmup</li>
-        <li>LinkedIn profile optimisation</li>
-        <li>Workshop content templates created</li>
-        <li>Messaging and copy finalised</li>
-        <li>Case studies packaged by vertical</li>
-        <li class="milestone">Milestone: Outbound infrastructure ready</li>
+        <li>Partnership agreement signed</li>
+        <li>Kickoff call &mdash; align on ICP, messaging, goals</li>
+        <li>Workshop positioning refined per vertical</li>
+        <li>Case studies packaged for outbound</li>
+        <li>Podcast guest criteria defined</li>
       </ul>
     </div>
 
     <div class="tl-card">
-      <span class="tl-badge tl-badge-amber">Week 3-4</span>
-      <h4>Launch</h4>
+      <span class="tl-badge tl-badge-purple">Days 8-14</span>
+      <h4>Infrastructure Build</h4>
       <ul>
-        <li>LinkedIn outreach begins (50-100/week)</li>
-        <li>Cold email sequences go live (200-400/week)</li>
-        <li>First workshop scheduled and promoted</li>
-        <li>Lead management system activated</li>
-        <li>Dashboard live</li>
-        <li class="milestone">Milestone: First outbound touches sent</li>
-      </ul>
-    </div>
-
-    <div class="tl-card">
-      <span class="tl-badge tl-badge-amber">Month 2</span>
-      <h4>Scale</h4>
-      <ul>
-        <li>Workshop #2 and #3 executed</li>
-        <li>Outbound volume at full capacity</li>
-        <li>First qualified conversations booking</li>
-        <li>AI follow-up sequences optimised</li>
-        <li>Weekly reporting and optimisation</li>
-        <li class="milestone">Milestone: Qualified conversations flowing</li>
+        <li>Email domains purchased and warmup begins</li>
+        <li>LinkedIn profiles configured for outreach</li>
+        <li>Pipeline tracking and AI automations deployed</li>
+        <li>Cold email sequences and LinkedIn scripts created</li>
+        <li class="milestone">Milestone: All infrastructure ready to launch</li>
       </ul>
     </div>
 
     <div class="tl-card tl-full">
-      <span class="tl-badge tl-badge-green">Month 3</span>
-      <h4>Results</h4>
+      <span class="tl-badge tl-badge-amber">Days 15-30 &mdash; LAUNCH</span>
+      <h4>Systems Go Live</h4>
       <ul style="columns:2; column-gap:32px;">
-        <li>15+ qualified conversations booked</li>
+        <li>Cold emails go live &mdash; podcast invitations flowing</li>
+        <li>LinkedIn connections begin &mdash; workshop invitations</li>
+        <li>First podcast guests booked and recorded</li>
+        <li>First workshop scheduled and promoted</li>
+        <li>Live dashboard active &mdash; see results in real-time</li>
+        <li class="milestone">Milestone: Outbound engine is running. You own everything we&rsquo;ve built.</li>
+      </ul>
+    </div>
+
+    <div class="tl-card">
+      <span class="tl-badge tl-badge-amber">Days 31-60</span>
+      <h4>Optimise &amp; Scale</h4>
+      <ul>
+        <li>A/B test messaging, scale what works</li>
+        <li>Workshop #2 and #3 executed</li>
+        <li>Podcast episodes publishing weekly</li>
+        <li>First qualified conversations booking</li>
+        <li>Refine targeting based on response data</li>
+      </ul>
+    </div>
+
+    <div class="tl-card" style="border-color:rgba(34,197,94,0.25); background:rgba(34,197,94,0.04);">
+      <span class="tl-badge tl-badge-green">Days 61-90</span>
+      <h4>Full Scale</h4>
+      <ul>
+        <li>15+ qualified conversations target hit</li>
+        <li>&pound;250K+ pipeline created</li>
+        <li>Strongest ICP segments doubled down</li>
         <li>Workshop pipeline building momentum</li>
-        <li>Case studies from new conversations</li>
-        <li>Decision: scale up, adjust, or expand verticals</li>
-        <li>Pipeline value tracked and reported</li>
-        <li class="milestone">Milestone: 15 qualified conversations guaranteed</li>
+        <li class="milestone">Decision: continue, expand verticals, or graduate</li>
       </ul>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 21: FAQ -->
-<!-- ============================================================ -->
-<div class="slide" data-slide="21">
+<!-- SLIDE 22: CLOSE + FAQ -->
+<div class="slide" data-slide="22">
 <div class="slide-inner">
-  <h2 class="mb-32">Questions You Might Have</h2>
+  <h1 class="text-center" style="font-size:42px; margin-bottom:16px;">&#x1F91D; Which Option Makes Sense for You?</h1>
+  <div class="section-divider"></div>
 
-  <details class="faq-item" open>
-    <summary>&ldquo;We already have a CGO &mdash; how does this complement David&rsquo;s work?&rdquo;</summary>
-    <div class="faq-body">David is strategic &mdash; ex-AWS, ex-Codurance, he knows what a growth engine should look like. We&rsquo;re tactical execution. We build the pipeline David needs to manage. Think of us as his outbound team, not his replacement.</div>
+  <div class="grid-2 mb-24" style="max-width:700px; margin-left:auto; margin-right:auto; gap:32px;">
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Recommended</div>
+      <h3 class="mb-8" style="font-size:20px; margin-top:8px;">Pay in Full</h3>
+      <p class="price-strike">&pound;80,000</p>
+      <p class="price-big text-accent">&pound;9,500</p>
+      <p style="display:inline-block; font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:4px 16px; margin-bottom:16px;">You save &pound;70,500</p>
+      <ul class="check-list text-left" style="font-size:15px;">
+        <li>Full system build + 90 days execution</li>
+        <li>All 3 pillars + AI suite + free bonuses</li>
+        <li>15+ conversations guaranteed</li>
+        <li>&pound;250K+ pipeline guaranteed</li>
+        <li><strong class="text-green">BONUS: Free podcast editing &amp; repurposing</strong></li>
+      </ul>
+      <p class="text-secondary mt-16" style="font-size:13px;">Save &pound;1,000 vs monthly &mdash; plus free podcast production</p>
+    </div>
+    <div class="pricing-card">
+      <h3 class="mb-16" style="font-size:20px;">Monthly</h3>
+      <p class="price-strike">&pound;80,000</p>
+      <p class="price-big">&pound;3,500</p>
+      <p class="text-secondary mb-16" style="font-size:15px;">/month &times; 3 months</p>
+      <p style="display:inline-block; font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:4px 16px; margin-bottom:16px;">You save &pound;69,500</p>
+      <p style="font-size:16px; font-weight:600; margin-bottom:8px;">Total: &pound;10,500</p>
+      <ul class="check-list text-left" style="font-size:15px;">
+        <li>Same deliverables, same guarantee</li>
+        <li>Start with lower commitment</li>
+        <li>All 3 pillars + AI suite</li>
+      </ul>
+      <p class="text-secondary mt-16" style="font-size:13px;">Podcast editing available as add-on</p>
+    </div>
+  </div>
+
+  <p class="text-center mb-24" style="font-size:19px; line-height:1.6;">I have space on my calendar <strong>Monday or Tuesday next week</strong> for the onboarding call.<br>I&rsquo;ll send over contracts and the first invoice today.</p>
+
+  <h4 class="mb-16" style="font-size:18px; color:var(--text-secondary); text-align:center;">Common Questions</h4>
+
+  <details class="faq-item">
+    <summary>&ldquo;We&rsquo;ve tried cold outreach before and it didn&rsquo;t work.&rdquo;</summary>
+    <div class="faq-body">Because most outreach IS spam. We don&rsquo;t send &ldquo;buy our stuff&rdquo; emails. We invite decision makers to free workshops, share Rob&rsquo;s thought leadership, and invite them onto a podcast. It&rsquo;s credibility-first. Workshop invite does not equal cold pitch. It&rsquo;s a value-first approach &mdash; you&rsquo;re demonstrating expertise to people who chose to attend.</div>
   </details>
 
   <details class="faq-item">
-    <summary>&ldquo;We&rsquo;ve tried cold outreach before and it felt spammy&rdquo;</summary>
-    <div class="faq-body">Because most outreach IS spammy. We don&rsquo;t send &ldquo;buy our stuff&rdquo; emails. We invite decision makers to free workshops, share Rob&rsquo;s thought leadership, and lead with case studies. It&rsquo;s credibility-first, not pitch-first.</div>
+    <summary>&ldquo;We already have a CGO &mdash; how does this complement David&rsquo;s work?&rdquo;</summary>
+    <div class="faq-body">David is strategic &mdash; ex-AWS, ex-Codurance, he knows what a growth engine should look like. We&rsquo;re tactical execution. We build the pipeline David needs to manage. Think of us as his outbound team, not his replacement. He focuses on strategy and closing &mdash; we fill the top of the funnel.</div>
   </details>
 
   <details class="faq-item">
     <summary>&ldquo;Our sales cycle is 9 months &mdash; can you really compress that?&rdquo;</summary>
-    <div class="faq-body">The workshop method puts 20-30 decision makers in one room. When CTO, CIO, and Head of Digital all hear the same message at the same time, internal alignment happens in the room &mdash; not over 6 months of internal emails. Multiple clients have seen 40-60% cycle reduction.</div>
-  </details>
-
-  <details class="faq-item">
-    <summary>&ldquo;What if the leads aren&rsquo;t qualified?&rdquo;</summary>
-    <div class="faq-body">Our guarantee is 15 qualified conversations &mdash; meaning booked calls with decision makers at companies that fit your ICP. Not random meetings. We define &ldquo;qualified&rdquo; together before we start, and you have final say on every lead.</div>
-  </details>
-
-  <details class="faq-item">
-    <summary>&ldquo;We&rsquo;re a UK consultancy &mdash; does your US-based team understand our market?&rdquo;</summary>
-    <div class="faq-body">Two of our current clients &mdash; Ripple and Phellos &mdash; are UK-based B2B consultancies. Same motion, same ICP targeting approach. We build the lists from UK-specific databases and tailor messaging to the UK business culture.</div>
+    <div class="faq-body">The workshop method puts 20-30 decision makers in one room. When CTO, CIO, and Head of Digital all hear the same message at the same time, internal alignment happens in the room &mdash; not over 6 months of internal emails. Multiple clients have seen 40-60% cycle reduction using this exact approach.</div>
   </details>
 
   <details class="faq-item">
     <summary>&ldquo;What about GDPR?&rdquo;</summary>
-    <div class="faq-body">All outbound is GDPR-compliant. We use legitimate interest basis for B2B outreach, include opt-out in every message, and never scrape personal data. Our email infrastructure follows UK ICO guidelines.</div>
+    <div class="faq-body">All outbound is GDPR-compliant. We use legitimate interest basis for B2B outreach, include opt-out in every message, and never scrape personal data. Our email infrastructure follows UK ICO guidelines for B2B marketing communications.</div>
   </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;What if the leads aren&rsquo;t qualified?&rdquo;</summary>
+    <div class="faq-body">Our guarantee is 15 qualified conversations &mdash; meaning booked calls with decision makers at companies that fit your ICP. Not random meetings. We define &ldquo;qualified&rdquo; together before we start, and you have final say on every lead. If we don&rsquo;t hit 15, we keep working for free.</div>
+  </details>
+
+  <p class="text-center mt-20 muted" style="font-size:13px;">Prepared by Dopamine Digital &middot; dopaminedigital.io</p>
 </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SLIDE 22: CLOSING -->
-<!-- ============================================================ -->
-<div class="slide center-v" data-slide="22">
-<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
-  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">READY TO FILL THE TOP OF THE FUNNEL?</p>
+</div><!-- /deck -->
 
-  <div class="quote-card mb-32" style="max-width:700px; text-align:center; border-left:4px solid var(--accent);">
-    <p style="font-size:24px; line-height:1.5;">&ldquo;The real risk is not that this technology is imperfect.<br>It&rsquo;s that others will quietly adopt it.&rdquo;</p>
-    <p style="font-size:14px; color:var(--text-secondary); margin-top:12px; font-family: 'Inter', sans-serif; font-style:normal;">&mdash; Rob Borley</p>
-  </div>
-
-  <p class="subtitle" style="max-width:660px; margin:0 auto 40px; font-size:20px;">Let&rsquo;s build the engine that puts Dootrix in front of 4,500+ organisations before your 53 competitors do.</p>
-
-  <div class="card card-violet card-sm mb-32" style="max-width:600px; text-align:center;">
-    <h4 class="mb-12" style="font-size:18px;">Next Steps</h4>
-    <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">Choose monthly or pay-in-full &rarr; Contract signed &rarr; Week 1 kickoff</p>
-  </div>
-
-  <div style="margin-top:8px;">
-    <p style="font-size:20px; font-weight:600; margin-bottom:4px;">Jordan Rafealov</p>
-    <p class="text-secondary" style="font-size:16px; margin-bottom:2px;">Dopamine Digital</p>
-    <p style="font-size:15px; color:var(--accent);">jordan@dopaminedigital.io</p>
-  </div>
-</div>
-</div>
-
-</div><!-- end deck -->
-
-<div class="nav-bar" id="navBar">
-  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8592;</button>
-  <span class="nav-counter" id="navCounter">1 / 22</span>
-  <button class="nav-btn" id="nextBtn" aria-label="Next slide">&#8594;</button>
-</div>
+<!-- Navigation -->
+<div class="nav-bar" id="navBar"></div>
+<div class="nav-counter" id="navCounter">1 / 22</div>
 
 <script>
 (function() {
   var deck = document.getElementById('deck');
   var slides = deck.querySelectorAll('.slide');
+  var navBar = document.getElementById('navBar');
   var navCounter = document.getElementById('navCounter');
-  var prevBtn = document.getElementById('prevBtn');
-  var nextBtn = document.getElementById('nextBtn');
   var totalSlides = slides.length;
   var currentSlide = 1;
 
-  // Touch handling
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var touchEndX = 0;
-  var touchEndY = 0;
+  // Build nav dots
+  for (var i = 1; i <= totalSlides; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+    dot.setAttribute('data-slide', i);
+    (function(n) {
+      dot.addEventListener('click', function() { goToSlide(n); });
+    })(i);
+    navBar.appendChild(dot);
+  }
 
   function goToSlide(n) {
     if (n < 1 || n > totalSlides) return;
     for (var i = 0; i < slides.length; i++) {
       slides[i].classList.remove('active');
     }
+    var dots = navBar.querySelectorAll('.nav-dot');
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.remove('active');
+    }
     currentSlide = n;
     slides[currentSlide - 1].classList.add('active');
     slides[currentSlide - 1].scrollTop = 0;
+    dots[currentSlide - 1].classList.add('active');
     navCounter.textContent = currentSlide + ' / ' + totalSlides;
   }
 
   function nextSlide() { goToSlide(currentSlide + 1); }
   function prevSlide() { goToSlide(currentSlide - 1); }
-
-  // Button navigation
-  prevBtn.addEventListener('click', function(e) { e.preventDefault(); prevSlide(); });
-  nextBtn.addEventListener('click', function(e) { e.preventDefault(); nextSlide(); });
 
   // Keyboard navigation
   document.addEventListener('keydown', function(e) {
@@ -1284,24 +1644,16 @@ details .detail-body ul {
     }
   });
 
-  // Touch swipe navigation
+  // Touch swipe
+  var touchStartX = 0;
   document.addEventListener('touchstart', function(e) {
     touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
-
   document.addEventListener('touchend', function(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    var diffX = touchStartX - touchEndX;
-    var diffY = touchStartY - touchEndY;
-    // Only trigger if horizontal swipe is dominant and exceeds threshold
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-      if (diffX > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
+    var diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
     }
   }, { passive: true });
 })();
