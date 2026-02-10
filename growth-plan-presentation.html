@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dootrix Growth Plan — Dopamine Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0c0c14;
+  --card: #16162a;
+  --card-border: rgba(255,255,255,0.08);
+  --accent: #7c3aed;
+  --accent-glow: rgba(124, 58, 237, 0.15);
+  --green: #22c55e;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --text: #f0f0f5;
+  --text-secondary: #a0a0b8;
+  --radius: 16px;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.deck { width: 100%; height: 100%; position: relative; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+  overflow-y: auto;
+  padding: 50px 40px 80px;
+  scrollbar-gutter: stable;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.center-v { align-items: center; }
+
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: transparent; }
+.slide::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 3px; }
+.slide::-webkit-scrollbar-thumb:hover { background: rgba(124,58,237,0.5); }
+
+.slide-inner {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5 { font-family: 'Inter', sans-serif; font-weight: 700; line-height: 1.15; }
+h1 { font-size: 52px; letter-spacing: -0.02em; margin-bottom: 16px; text-wrap: balance; }
+h2 { font-size: 44px; letter-spacing: -0.02em; margin-bottom: 16px; text-align: center; }
+h3 { font-size: 28px; margin-bottom: 12px; }
+h4 { font-size: 22px; margin-bottom: 8px; font-weight: 600; }
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.subtitle { font-size: 22px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; font-weight: 400; text-align: center; }
+
+.playfair-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.text-secondary { color: var(--text-secondary); }
+.text-accent { color: var(--accent); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-amber { color: var(--amber); }
+strong { font-weight: 700; }
+s { color: var(--text-secondary); text-decoration: line-through; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 36px;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.card:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.card-sm { padding: 24px; }
+.card-red { border-color: rgba(239,68,68,0.25); background: rgba(239,68,68,0.05); }
+.card-green { border-color: rgba(34,197,94,0.25); background: rgba(34,197,94,0.05); }
+.card-violet { border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.06); }
+.card-amber { border-color: rgba(245,158,11,0.25); background: rgba(245,158,11,0.05); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+
+.bullet-list { list-style: none; padding: 0; }
+.bullet-list li {
+  padding: 10px 0 10px 28px;
+  position: relative;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.bullet-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 18px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.bullet-list.green li::before { background: var(--green); }
+.bullet-list.red li::before { background: var(--red); }
+.bullet-list.amber li::before { background: var(--amber); }
+
+.check-list, .x-list { list-style: none; padding: 0; }
+.check-list li, .x-list li {
+  padding: 8px 0 8px 32px;
+  position: relative;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.check-list li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0; top: 8px;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 18px;
+}
+.x-list li::before {
+  content: '\2717';
+  position: absolute;
+  left: 0; top: 8px;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.proof-img {
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  display: block;
+  width: 100%;
+}
+
+.img-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch;
+}
+.img-row img { width: 100%; max-width: 100%; }
+
+.video-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  display: block;
+  width: 100%;
+  background: #000;
+}
+.video-wrap iframe { display: block; width: 100%; aspect-ratio: 16/9; height: auto; border: none; }
+
+.quote-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.quote-card p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+.gap-section { margin-bottom: 24px; }
+.gap-section h4 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.gap-section p { font-size: 17px; color: var(--text-secondary); line-height: 1.6; }
+
+.stat { text-align: center; padding: 28px 20px; }
+.stat .num { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
+.stat .label { font-size: 16px; color: var(--text-secondary); line-height: 1.4; }
+
+details {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+details summary {
+  padding: 18px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: '\25B6';
+  font-size: 12px;
+  color: var(--accent);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+details[open] summary::before { transform: rotate(90deg); }
+details .detail-body {
+  padding: 0 24px 20px 48px;
+}
+details .detail-body li {
+  font-size: 16px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  line-height: 1.5;
+  position: relative;
+  list-style: none;
+}
+details .detail-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.value-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.value-line:last-child { border-bottom: none; }
+
+.pricing-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 36px;
+  text-align: center;
+  position: relative;
+}
+.pricing-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 40px rgba(124,58,237,0.12);
+}
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.price-big { font-size: 52px; font-weight: 700; margin: 16px 0 8px; }
+.price-strike { font-size: 24px; color: var(--text-secondary); text-decoration: line-through; }
+
+.tl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.tl-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  position: relative;
+}
+.tl-card.tl-full { grid-column: 1 / -1; border-color: rgba(34,197,94,0.25); background: rgba(34,197,94,0.04); }
+.tl-card h4 { font-size: 18px; margin-bottom: 12px; }
+.tl-card li { font-size: 15px; color: var(--text-secondary); padding: 3px 0; line-height: 1.5; list-style: none; }
+.tl-card ul { list-style: none; padding: 0; }
+.tl-card .tl-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.tl-badge-purple { background: rgba(124,58,237,0.15); color: var(--accent); }
+.tl-badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+.tl-badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.tl-card .milestone { color: var(--green); font-weight: 600; font-style: italic; }
+
+.glow-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(34,197,94,0.08) 100%);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(124,58,237,0.08);
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 2px;
+  margin: 0 auto 32px;
+}
+
+.faq-item {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.faq-item summary {
+  padding: 14px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  color: var(--text-secondary);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::before {
+  content: '+';
+  font-size: 16px;
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+}
+.faq-item[open] summary::before { content: '\2212'; }
+.faq-item[open] summary { color: var(--text); }
+.faq-item .faq-body {
+  padding: 0 20px 16px 40px;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.pyramid-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.pyramid-bar {
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 200ms ease;
+}
+.pyramid-bar:hover { transform: scaleY(1.08); }
+.pyramid-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  min-width: 240px;
+  text-align: left;
+}
+
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(12,12,20,0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  z-index: 100;
+}
+.nav-btn {
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: var(--accent);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 200ms ease;
+  flex-shrink: 0;
+}
+.nav-btn:hover { background: rgba(124,58,237,0.3); border-color: var(--accent); }
+.nav-counter {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+  text-align: center;
+}
+
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+.mb-40 { margin-bottom: 40px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.small { font-size: 14px; }
+.muted { color: var(--text-secondary); opacity: 0.6; }
+
+@media (max-width: 1024px) {
+  .slide { padding: 40px 24px 80px; }
+  h1 { font-size: 40px; }
+  h2 { font-size: 36px; }
+  .grid-2, .grid-3, .tl-grid { grid-template-columns: 1fr; }
+  .tl-card.tl-full { grid-column: auto; }
+  .pyramid-label { min-width: 160px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================================ -->
+<div class="slide center-v active" data-slide="1">
+<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">DOPAMINE DIGITAL</p>
+  <h1 style="font-size:46px; margin-bottom:20px; text-align:center;">How We Will Help Dootrix Build a<br><span class="text-accent">Predictable Pipeline to &pound;20M</span></h1>
+  <p class="subtitle" style="max-width:740px; margin:0 auto 40px; text-align:center;">A 90-day growth engine to fill your top of funnel with qualified CTO and CIO conversations &mdash; without relying on referrals or hoping events convert</p>
+  <p class="playfair-quote" style="max-width:550px; margin:0 auto 40px; font-size:20px; text-align:center;">&ldquo;Built specifically for Rob Borley &amp; Dootrix&rdquo;</p>
+  <p class="small muted" style="text-align:center;">February 2026</p>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: DISCOVERY RECAP -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="2">
+<div class="slide-inner">
+  <p class="eyebrow">Discovery Recap</p>
+  <h2 class="mb-32">What We Found</h2>
+
+  <div class="grid-2 mb-32">
+    <div class="card card-green card-sm">
+      <h4 class="text-green mb-12">What Stood Out</h4>
+      <ul class="check-list">
+        <li>74% revenue growth &mdash; hit 50% target and exceeded it</li>
+        <li>Heathrow, Confused.com, Ofcom &mdash; world-class case studies that sell themselves</li>
+        <li>Rob&rsquo;s thought leadership is strong &mdash; 16+ podcast episodes, weekly LinkedIn content</li>
+        <li>Microsoft Solutions Partner + Crown Commercial Service &mdash; opens government doors</li>
+        <li>Already doing free workshops &mdash; the attraction model exists</li>
+        <li>New COO (Tom) + CGO (David) &mdash; serious leadership bench</li>
+      </ul>
+    </div>
+    <div class="card card-amber card-sm">
+      <h4 class="text-amber mb-12">What Needs Addressing</h4>
+      <ul class="x-list">
+        <li>Top of funnel is the biggest bottleneck &mdash; Rob&rsquo;s own words</li>
+        <li>9-month sales cycle needs compression &mdash; too long for &pound;20M target</li>
+        <li>Content isn&rsquo;t reaching buyers &mdash; podcast audience is thought leaders, not ICP</li>
+        <li>No systematic outbound engine &mdash; growth has been organic/referral</li>
+        <li>53 competitors positioning similarly in Agentic AI space</li>
+        <li>Free workshops run but no outbound filling the room with the RIGHT people</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: CASE STUDY — CREATESTUDIO -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="3">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-8">CreateStudio</h2>
+  <p class="subtitle mb-24">AI Explainer Video Creator</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Created a sales funnel that generated $3M+ in revenue, increasing enterprise value and enabling a multiple 7-figure exit&rdquo;</p>
+  </div>
+
+  <div class="video-wrap mb-24">
+    <iframe src="https://www.youtube.com/embed/BExJ1GF4SOU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <ul class="check-list mb-24">
+    <li>Increased revenue by $600,000/month in under 12 months</li>
+    <li>Built top 5 performing YouTube ads in their category</li>
+    <li>Presented live webinar to 2,000 concurrent viewers</li>
+    <li>Generated $100,000 from stage and $336,000 total from a single campaign</li>
+    <li>Led the offer, ad, and funnel rebuild that enabled a 7-figure exit</li>
+  </ul>
+
+  <div class="grid-2">
+    <img src="assets/createstudio_3.png" alt="CreateStudio results" class="proof-img">
+    <img src="assets/createstudio_5.png" alt="CreateStudio campaign" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: CASE STUDY — MEDIAPLACE AI -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="4">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-8">MediaPlace AI</h2>
+  <p class="subtitle mb-24">AI-Powered Media Monitoring</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;$100,000 in pre-sales within 6 weeks &mdash; built the product after confirming demand&rdquo;</p>
+  </div>
+
+  <ul class="check-list mb-24">
+    <li>Generated $100,000 in pre-sales before the product launched</li>
+    <li>Used workshop model to fill rooms with enterprise buyers</li>
+    <li>Converted 15% of workshop attendees into paying customers</li>
+    <li>Built email list of 3,000+ qualified enterprise leads in 60 days</li>
+  </ul>
+
+  <div class="grid-2">
+    <img src="assets/mediaplace_0.png" alt="MediaPlace AI results" class="proof-img">
+    <img src="assets/mediaplace_1.png" alt="MediaPlace AI campaign" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: WHY NOW — THE TRUST WINDOW -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="5">
+<div class="slide-inner">
+  <h2 class="mb-8">Why This Needs to Happen Now</h2>
+  <p class="subtitle mb-32">The window to build trust and brand in Agentic AI is closing fast</p>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm" style="border-top: 3px solid var(--red);">
+      <h4 class="mb-12" style="font-size:19px;">AI Is Eating Market Share</h4>
+      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">2026 is the tipping point. Gartner projects <strong style="color:var(--text);">40% of enterprise apps will feature AI agents by end of 2026</strong> (up from &lt;5% in 2025). Every month Dootrix waits, competitors are building relationships with your buyers. Elsewhen, Faculty, and ICS.AI are all ramping positioning in the same space.</p>
+    </div>
+    <div class="card card-sm" style="border-top: 3px solid var(--amber);">
+      <h4 class="mb-12" style="font-size:19px;">The Trust Window Is Closing</h4>
+      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">As AI commoditizes delivery, the winners will be the companies with trusted relationships and recognized brands. When anyone can build, trust becomes the differentiator. Rob&rsquo;s own words: <strong style="color:var(--text);">&ldquo;When anyone can build anything, the cost of poor judgement becomes higher.&rdquo;</strong> Put YOUR face out there NOW.</p>
+    </div>
+    <div class="card card-sm" style="border-top: 3px solid var(--green);">
+      <h4 class="mb-12" style="font-size:19px;">Government Money Is Flowing</h4>
+      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">&pound;2B AI investment by 2029/30. &pound;10B NHS tech investment. &pound;3.25B Transformation Fund. G-Cloud 15 = &pound;14B framework. <strong style="color:var(--text);">Crown Commercial Service gives Dootrix a seat at the table.</strong> But the budget window won&rsquo;t last.</p>
+    </div>
+    <div class="card card-sm" style="border-top: 3px solid var(--accent);">
+      <h4 class="mb-12" style="font-size:19px;">9-Month Math</h4>
+      <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">With a 9-month sales cycle, <strong style="color:var(--text);">pipeline you build TODAY closes in Q4 2026</strong>. Pipeline you DON&rsquo;T build today = revenue gap next year. To hit &pound;20M in 3 years, the outbound engine needed to start yesterday.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: THE MARKET FORMULA -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="6">
+<div class="slide-inner">
+  <h2 class="mb-8">97% of Your Market Isn&rsquo;t Looking for You</h2>
+  <p class="subtitle mb-32">Only 3% of buyers are actively in-market at any time. The other 97% need to know, trust, and remember you BEFORE they need an Azure specialist.</p>
+
+  <div class="card mb-24" style="padding:32px 40px;">
+    <div class="pyramid-row">
+      <div class="pyramid-bar" style="width:80px; background:var(--green);">3%</div>
+      <span class="pyramid-label">Actively buying now</span>
+    </div>
+    <div class="pyramid-row">
+      <div class="pyramid-bar" style="width:140px; background:rgba(34,197,94,0.5);">7%</div>
+      <span class="pyramid-label">Open to it but not looking</span>
+    </div>
+    <div class="pyramid-row">
+      <div class="pyramid-bar" style="width:260px; background:var(--amber);">30%</div>
+      <span class="pyramid-label">Not thinking about it</span>
+    </div>
+    <div class="pyramid-row">
+      <div class="pyramid-bar" style="width:380px; background:rgba(245,158,11,0.5);">30%</div>
+      <span class="pyramid-label">Don&rsquo;t think they&rsquo;re interested</span>
+    </div>
+    <div class="pyramid-row">
+      <div class="pyramid-bar" style="width:500px; background:var(--red);">30%</div>
+      <span class="pyramid-label">Know they&rsquo;re not interested</span>
+    </div>
+  </div>
+
+  <div class="card card-violet card-sm mb-24" style="text-align:center;">
+    <p style="font-size:19px; margin-bottom:12px; font-weight:600;">When that 97% IS ready &mdash; will they think of Dootrix, or one of your 53 competitors?</p>
+    <p style="font-size:17px; color:var(--text-secondary);">The answer: <strong class="text-accent">Workshops + Outbound + Content</strong> = you&rsquo;re the one they remember.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: GAP #1 — NO PREDICTABLE TOP-OF-FUNNEL -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="7">
+<div class="slide-inner">
+  <p class="eyebrow">Gap Analysis</p>
+  <h2 class="mb-32">Gap #1: Content Without Pipeline</h2>
+
+  <div class="card card-red card-sm mb-24">
+    <ul class="bullet-list red">
+      <li>Rob&rsquo;s LinkedIn content is excellent. Podcast is strong. But it&rsquo;s reaching thought leaders and peers, not <strong>BUYERS</strong></li>
+      <li>16 events and podcasts done &mdash; but how many converted to pipeline?</li>
+      <li>Currently: awareness without acquisition</li>
+      <li>The missing link: systematic outbound that pushes Rob&rsquo;s authority content TO the right people</li>
+    </ul>
+  </div>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;The real risk is not that this technology is imperfect. It&rsquo;s that others will quietly adopt it.&rdquo;</p>
+    <p style="font-size:14px; color:var(--text-secondary); margin-top:8px; font-family: 'Inter', sans-serif; font-style:normal;">&mdash; Rob Borley</p>
+  </div>
+
+  <div class="card card-violet card-sm" style="text-align:center;">
+    <p style="font-size:17px; line-height:1.6;">Apply this to Rob&rsquo;s own situation: the risk isn&rsquo;t that outbound is imperfect. <strong>It&rsquo;s that competitors are quietly building relationships</strong> with the CTOs and CIOs who should be talking to Dootrix.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: GAP #2 — 9-MONTH SALES CYCLE -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="8">
+<div class="slide-inner">
+  <p class="eyebrow">Gap Analysis</p>
+  <h2 class="mb-32">Gap #2: A Sales Cycle That&rsquo;s Too Long for &pound;20M</h2>
+
+  <div class="card card-red card-sm mb-24">
+    <ul class="bullet-list red">
+      <li><strong>9 months</strong> from first contact to close</li>
+      <li>For enterprise Agentic AI projects, multiple decision makers need to align</li>
+      <li>Current approach: one-to-one conversations &rarr; slow consensus building</li>
+    </ul>
+  </div>
+
+  <div class="card card-violet card-sm mb-24">
+    <h4 class="text-accent mb-12">The Workshop Method Compresses This</h4>
+    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">Get CTO, CIO, Head of Digital, and VP Engineering in <strong style="color:var(--text);">ONE room</strong>. Present a 60-minute Agentic AI workshop. Demonstrate authority. ALL decision makers hear the same message.</p>
+    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;">Consensus happens in the room, not over 6 months of internal emails.</p>
+  </div>
+
+  <div class="card card-green card-sm" style="text-align:center;">
+    <p style="font-size:20px; font-weight:600;">Result: compress <span class="text-red">9 months</span> to <span class="text-green">3-4 months</span></p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: GAP #3 — NO OUTBOUND ENGINE -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="9">
+<div class="slide-inner">
+  <p class="eyebrow">Gap Analysis</p>
+  <h2 class="mb-32">Gap #3: No Engine, No Control</h2>
+
+  <div class="card card-red card-sm mb-24">
+    <ul class="bullet-list red">
+      <li>Growth to date = organic, referral, inbound from content</li>
+      <li>This is great but <strong>not scalable or predictable</strong></li>
+      <li>What happens when the referral well runs dry?</li>
+      <li>Rob&rsquo;s Feb 5 note: &ldquo;CAN&rsquo;T TRUST IT&rdquo; &mdash; cold outreach alone doesn&rsquo;t work for enterprise</li>
+    </ul>
+  </div>
+
+  <div class="card card-violet card-sm mb-24">
+    <h4 class="text-accent mb-12">But Cold Outreach + Credibility = Different Motion</h4>
+    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px;">Cold outreach + credibility (case studies, workshops, Rob&rsquo;s brand) = a completely different motion than generic cold pitches.</p>
+    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;"><strong style="color:var(--text);">Invite to a free workshop &#8800; cold pitch.</strong> It&rsquo;s a value-first approach. You&rsquo;re not selling &mdash; you&rsquo;re demonstrating expertise to a room full of decision makers who chose to attend.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: COST OF INACTION -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="10">
+<div class="slide-inner">
+  <h2 class="mb-8">What Happens If Nothing Changes?</h2>
+  <p class="subtitle mb-32">The math behind inaction</p>
+
+  <div class="card card-red card-sm mb-24">
+    <div class="grid-2" style="gap:32px;">
+      <div>
+        <h4 class="text-red mb-12">The Pipeline Gap</h4>
+        <ul class="bullet-list red" style="font-size:16px;">
+          <li>Current pipeline reliance: organic/referral &rarr; unpredictable</li>
+          <li>&pound;20M target &divide; avg deal size &pound;150K = <strong style="color:var(--text);">133 new deals</strong> needed in 3 years</li>
+          <li>= ~44 deals/year = <strong style="color:var(--text);">~4 new clients per month</strong></li>
+          <li>With a 9-month cycle, you need 4 months of pipeline AHEAD at all times</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-red mb-12">The Compounding Cost</h4>
+        <ul class="bullet-list red" style="font-size:16px;">
+          <li>Today: how many qualified conversations are happening per month? &rarr; Not enough</li>
+          <li>Every month without outbound = <strong style="color:var(--text);">4+ fewer deals</strong> closing 9 months from now</li>
+          <li>In 12 months: competitors who started outbound TODAY will have <strong style="color:var(--text);">50-100 relationships</strong> Dootrix doesn&rsquo;t</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
+      <p style="font-size:42px; font-weight:700; color:var(--red); margin-bottom:8px;">4/mo</p>
+      <p class="small text-secondary">New clients needed to hit &pound;20M in 3 years</p>
+    </div>
+    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
+      <p style="font-size:42px; font-weight:700; color:var(--amber); margin-bottom:8px;">9 mo</p>
+      <p class="small text-secondary">Average sales cycle &mdash; pipeline must start now</p>
+    </div>
+    <div class="card card-sm" style="text-align:center; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2);">
+      <p style="font-size:42px; font-weight:700; color:var(--red); margin-bottom:8px;">53</p>
+      <p class="small text-secondary">Competitors building relationships while Dootrix waits</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: TOTAL ADDRESSABLE MARKET -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="11">
+<div class="slide-inner">
+  <h2 class="mb-8">4,500+ UK Organisations Need What Dootrix Builds</h2>
+  <p class="subtitle mb-32">Broken down by the six verticals where you already have proof</p>
+
+  <div class="grid-3 mb-24">
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Financial Services &amp; Insurance</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">800-1,200</p>
+      <p class="small text-secondary mb-8">companies</p>
+      <p class="small" style="color:var(--green);">Proof: Confused.com, GBG</p>
+    </div>
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Public Sector &amp; Regulators</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">600-900</p>
+      <p class="small text-secondary mb-8">organisations</p>
+      <p class="small" style="color:var(--green);">Proof: Ofcom, Crown Commercial</p>
+    </div>
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Transport &amp; Infrastructure</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">400-600</p>
+      <p class="small text-secondary mb-8">companies</p>
+      <p class="small" style="color:var(--green);">Proof: Heathrow, P&amp;O Ferries</p>
+    </div>
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Energy &amp; CleanTech</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">400-700</p>
+      <p class="small text-secondary mb-8">companies</p>
+      <p class="small" style="color:var(--green);">Proof: Gridserve, Fynlo</p>
+    </div>
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Scale-Up Tech</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">1,500-2,500</p>
+      <p class="small text-secondary mb-8">companies</p>
+      <p class="small" style="color:var(--green);">Proof: ProveIt, Support Guru, Casedo</p>
+    </div>
+    <div class="card card-sm">
+      <h4 style="font-size:17px;" class="mb-8">Retail &amp; Consumer</h4>
+      <p style="font-size:28px; font-weight:700; color:var(--accent); margin-bottom:4px;">800-1,500</p>
+      <p class="small text-secondary mb-8">companies</p>
+      <p class="small" style="color:var(--green);">Proof: Confused.com, PureGym</p>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <p class="text-secondary mb-8" style="font-size:14px; text-transform:uppercase; letter-spacing:0.1em;">Total Targetable UK Organisations</p>
+    <p style="font-size:52px; font-weight:700; color:var(--green);">4,500 &ndash; 7,400</p>
+    <p class="text-secondary mt-12" style="font-size:16px;">And Dootrix has a case study for every single one.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: TRANSITION — INTRODUCING THE GROWTH ENGINE -->
+<!-- ============================================================ -->
+<div class="slide center-v" data-slide="12">
+<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+  <div class="section-divider" style="margin-bottom:40px;"></div>
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">INTRODUCING THE GROWTH ENGINE</p>
+  <h1 style="font-size:44px; margin-bottom:24px; text-align:center;">Three Pillars to Fill Your Pipeline,<br>Compress Your Sales Cycle,<br>and Hit &pound;20M</h1>
+  <div class="section-divider" style="margin-top:32px;"></div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: PILLAR 1 — GTM STRATEGY & OFFER POSITIONING -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="13">
+<div class="slide-inner">
+  <p class="eyebrow">Strategic Foundation</p>
+  <h2 class="mb-32">Pillar 1: GTM Strategy, Offer Creation &amp; Case Study Support</h2>
+
+  <details open>
+    <summary>Workshop &amp; Design Sprint Positioning</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Refine the free Agentic Workshop as a <strong>lead generation tool</strong> (not just brand awareness)</li>
+        <li>Position the AI Design Sprint (&pound;5K-40K) as the clear next step from workshop</li>
+        <li>Create urgency messaging around the Agentic AI adoption window</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Lead Magnet Creation</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Build a downloadable asset for each ICP segment (e.g., &ldquo;Agentic AI Readiness Scorecard for Financial Services&rdquo;)</li>
+        <li>Gate behind email capture for outbound nurture</li>
+        <li>Use Rob&rsquo;s existing thought leadership as source material</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Case Study Development</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Package Confused.com, Heathrow, Gridserve, Ofcom stories into <strong>vertical-specific proof</strong></li>
+        <li>Create ROI narratives: &ldquo;400% download increase,&rdquo; &ldquo;50% telecom cost reduction&rdquo;</li>
+        <li>Format for LinkedIn, email sequences, and workshop presentations</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Messaging &amp; Positioning</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Refine the &ldquo;specialist vs. generalist&rdquo; pitch for each ICP segment</li>
+        <li>Create email copy, LinkedIn messaging, and workshop invite templates</li>
+        <li>Align all outbound messaging with Rob&rsquo;s anti-hype, substance-first brand</li>
+      </ul>
+    </div>
+  </details>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: PILLAR 2 — OUTBOUND ENGINE -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="14">
+<div class="slide-inner">
+  <p class="eyebrow">LinkedIn + Cold Email Across 6 Verticals</p>
+  <h2 class="mb-32">Pillar 2: The Outbound Engine</h2>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm">
+      <h4 class="mb-12">LinkedIn Outreach</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Target: CTOs, CIOs, Heads of Digital, VPs of Engineering across 6 ICP segments</li>
+        <li>Personalised connection requests referencing Dootrix case studies</li>
+        <li>Workshop invitation sequences</li>
+        <li>Thought leadership sharing (Rob&rsquo;s articles + podcast episodes)</li>
+        <li>Volume: <strong>50-100 new connections/week</strong></li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Cold Email</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>AI-personalised email sequences for each ICP segment</li>
+        <li>Lead with value: workshop invite, case study, or lead magnet</li>
+        <li>Multi-step sequences: 4-5 touches over 3 weeks</li>
+        <li>Infrastructure: dedicated domains, warmup, deliverability monitoring</li>
+        <li>Volume: <strong>200-400 emails/week</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-violet card-sm">
+    <h4 class="text-accent mb-12">Workshop / Keynote Method</h4>
+    <ul class="bullet-list" style="font-size:16px;">
+      <li>Monthly online workshop: &ldquo;Agentic AI for [Vertical]&rdquo; &mdash; 20-30 seats</li>
+      <li>Rob presents a 45-60 min session demonstrating authority</li>
+      <li>Multiple decision makers from target accounts attend together</li>
+      <li>We provide: templates, slide frameworks, follow-up sequences, attendee tracking</li>
+      <li>We DON&rsquo;T host for you &mdash; Rob presents, we make sure everything else runs</li>
+      <li>Post-workshop: automated + manual follow-up within 24 hours</li>
+      <li>Goal: <strong>2-3 workshops/month &rarr; 40-60 qualified decision makers in the room each month</strong></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: PILLAR 3 — AI LEAD MANAGEMENT -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="15">
+<div class="slide-inner">
+  <p class="eyebrow">Nothing Falls Through the Cracks</p>
+  <h2 class="mb-32">Pillar 3: AI-Powered Lead Management &amp; Sales Support</h2>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm">
+      <h4 class="mb-12">AI Lead Qualification</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Every reply scored and categorised automatically</li>
+        <li>Hot leads escalated to Rob/David within minutes</li>
+        <li>Warm leads nurtured with content sequences</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Automated Follow-Up</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Workshop attendees get personalised follow-up within 24 hours</li>
+        <li>LinkedIn connections get content drip sequences</li>
+        <li>Email responders get multi-touch nurture with case studies</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Meeting Booking</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Calendar integration for seamless scheduling</li>
+        <li>Confirmation + reminder sequences</li>
+        <li>Pre-call brief generated automatically</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Sales Support</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Call prep for every qualified meeting</li>
+        <li>Follow-up email drafts after calls</li>
+        <li>Pipeline tracking and reporting</li>
+        <li>Workshop/keynote debrief and attendee analysis</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16: FREE BONUSES -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="16">
+<div class="slide-inner">
+  <h2 class="mb-32">Included at No Extra Cost</h2>
+
+  <div class="grid-2">
+    <div class="card card-sm" style="border-top: 3px solid var(--green);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h4 style="margin-bottom:0;">Live Pipeline Dashboard</h4>
+        <span style="font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:3px 14px;">$500/mo value</span>
+      </div>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Real-time overview of all outreach activity</li>
+        <li>Workshop registration and attendance tracking</li>
+        <li>Lead status, pipeline stage, and conversion metrics</li>
+        <li>Weekly reports delivered to your inbox</li>
+      </ul>
+    </div>
+    <div class="card card-sm" style="border-top: 3px solid var(--green);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h4 style="margin-bottom:0;">Podcast Editing &amp; Repurposing</h4>
+        <span style="font-size:14px; font-weight:700; color:var(--green); background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:20px; padding:3px 14px;">$1,500/mo value</span>
+      </div>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Take &ldquo;The Next Thing Now&rdquo; long-form episodes</li>
+        <li>Edit and convert to 3-5 short-form clips per episode</li>
+        <li>Optimised for LinkedIn, YouTube Shorts, and social</li>
+        <li>Extend Rob&rsquo;s thought leadership reach without extra work</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17: VALUE STACK -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="17">
+<div class="slide-inner">
+  <h2 class="mb-32">Everything You&rsquo;re Getting</h2>
+
+  <div class="card mb-24">
+    <div class="value-line"><span>GTM Strategy &amp; Offer Positioning</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$3,000/mo</span></div>
+    <div class="value-line"><span>LinkedIn Outbound Engine (50-100/week)</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,500/mo</span></div>
+    <div class="value-line"><span>Cold Email Engine (200-400/week)</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,000/mo</span></div>
+    <div class="value-line"><span>Workshop/Keynote Setup &amp; Follow-Up</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$2,000/mo</span></div>
+    <div class="value-line"><span>AI Lead Management &amp; Qualification</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,500/mo</span></div>
+    <div class="value-line"><span>Sales Support &amp; Call Prep</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,000/mo</span></div>
+    <div class="value-line"><span>Live Pipeline Dashboard</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$500/mo</span></div>
+    <div class="value-line"><span>Podcast Editing &amp; Repurposing</span> <span style="font-size:18px; font-weight:600; color:var(--accent);">$1,500/mo</span></div>
+    <div class="value-line" style="border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom:16px; margin-bottom:8px;">
+      <span style="font-weight:700; font-size:18px;">TOTAL VALUE</span>
+      <span style="font-size:22px; font-weight:700; color:var(--text-secondary); text-decoration:line-through;">$14,000/mo</span>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <p class="text-secondary mb-8" style="font-size:14px; text-transform:uppercase; letter-spacing:0.1em;">Your Investment</p>
+    <p style="font-size:56px; font-weight:700; color:var(--green);">$4,500<span style="font-size:22px; font-weight:400; color:var(--text-secondary);">/month</span></p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18: GUARANTEE -->
+<!-- ============================================================ -->
+<div class="slide center-v" data-slide="18">
+<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">OUR GUARANTEE</p>
+
+  <div class="glow-card" style="max-width:800px; margin:0 auto; padding:48px;">
+    <h2 style="font-size:36px; margin-bottom:24px; text-align:center; line-height:1.3;">15 qualified sales conversations with CTOs, CIOs, and Heads of Digital in 90 days &mdash; or we keep working for free until we hit it.</h2>
+
+    <div class="section-divider" style="margin:24px auto;"></div>
+
+    <p style="font-size:18px; color:var(--text-secondary); line-height:1.6; margin-bottom:24px;">A qualified conversation means a booked call with a decision maker at a company that fits your ICP &mdash; not a random chat.</p>
+
+    <p style="font-size:17px; color:var(--text-secondary); line-height:1.6;">That&rsquo;s 15 conversations in the door. At your average deal size of &pound;100K+, even <strong style="color:var(--green);">ONE closed deal covers your entire investment 7x over.</strong></p>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 19: INVESTMENT -->
+<!-- ============================================================ -->
+<div class="slide center-v" data-slide="19">
+<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center;">
+  <h2 class="mb-32">Investment</h2>
+
+  <div class="grid-2 mb-24" style="max-width:800px; width:100%; gap:32px;">
+    <div class="pricing-card">
+      <h3 class="mb-8" style="font-size:22px;">Monthly</h3>
+      <p class="price-big" style="color:var(--text);">$4,500</p>
+      <p class="text-secondary mb-16" style="font-size:15px;">/month</p>
+      <p class="text-secondary mb-20" style="font-size:15px;">3-month minimum commitment</p>
+      <div style="padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px;">
+        <p style="font-size:14px; color:var(--text-secondary);">Start with low risk, scale if it works</p>
+      </div>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge">SAVE $1,500</div>
+      <h3 class="mb-8" style="font-size:22px; margin-top:8px;">Pay in Full</h3>
+      <p class="price-strike">$13,500</p>
+      <p class="price-big" style="color:var(--green);">$12,000</p>
+      <p class="text-secondary mb-16" style="font-size:15px;">one-time</p>
+      <p class="text-secondary mb-20" style="font-size:15px;">Full 90 days paid upfront</p>
+      <div style="padding:12px 16px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2); border-radius:10px;">
+        <p style="font-size:14px; color:var(--green); font-weight:600;">Best value &mdash; and shows you&rsquo;re serious</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-secondary" style="font-size:16px; text-align:center; max-width:600px;">That&rsquo;s $150/day. Less than a junior SDR intern. And you get a <strong style="color:var(--text);">5-person growth team + AI</strong>.</p>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 20: 90-DAY TIMELINE -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="20">
+<div class="slide-inner">
+  <h2 class="mb-32">Your 90-Day Roadmap</h2>
+
+  <div class="tl-grid">
+    <div class="tl-card">
+      <span class="tl-badge tl-badge-purple">Week 1-2</span>
+      <h4>Foundation</h4>
+      <ul>
+        <li>ICP definition and lead list building</li>
+        <li>Email domain setup and warmup</li>
+        <li>LinkedIn profile optimisation</li>
+        <li>Workshop content templates created</li>
+        <li>Messaging and copy finalised</li>
+        <li>Case studies packaged by vertical</li>
+        <li class="milestone">Milestone: Outbound infrastructure ready</li>
+      </ul>
+    </div>
+
+    <div class="tl-card">
+      <span class="tl-badge tl-badge-amber">Week 3-4</span>
+      <h4>Launch</h4>
+      <ul>
+        <li>LinkedIn outreach begins (50-100/week)</li>
+        <li>Cold email sequences go live (200-400/week)</li>
+        <li>First workshop scheduled and promoted</li>
+        <li>Lead management system activated</li>
+        <li>Dashboard live</li>
+        <li class="milestone">Milestone: First outbound touches sent</li>
+      </ul>
+    </div>
+
+    <div class="tl-card">
+      <span class="tl-badge tl-badge-amber">Month 2</span>
+      <h4>Scale</h4>
+      <ul>
+        <li>Workshop #2 and #3 executed</li>
+        <li>Outbound volume at full capacity</li>
+        <li>First qualified conversations booking</li>
+        <li>AI follow-up sequences optimised</li>
+        <li>Weekly reporting and optimisation</li>
+        <li class="milestone">Milestone: Qualified conversations flowing</li>
+      </ul>
+    </div>
+
+    <div class="tl-card tl-full">
+      <span class="tl-badge tl-badge-green">Month 3</span>
+      <h4>Results</h4>
+      <ul style="columns:2; column-gap:32px;">
+        <li>15+ qualified conversations booked</li>
+        <li>Workshop pipeline building momentum</li>
+        <li>Case studies from new conversations</li>
+        <li>Decision: scale up, adjust, or expand verticals</li>
+        <li>Pipeline value tracked and reported</li>
+        <li class="milestone">Milestone: 15 qualified conversations guaranteed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 21: FAQ -->
+<!-- ============================================================ -->
+<div class="slide" data-slide="21">
+<div class="slide-inner">
+  <h2 class="mb-32">Questions You Might Have</h2>
+
+  <details class="faq-item" open>
+    <summary>&ldquo;We already have a CGO &mdash; how does this complement David&rsquo;s work?&rdquo;</summary>
+    <div class="faq-body">David is strategic &mdash; ex-AWS, ex-Codurance, he knows what a growth engine should look like. We&rsquo;re tactical execution. We build the pipeline David needs to manage. Think of us as his outbound team, not his replacement.</div>
+  </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;We&rsquo;ve tried cold outreach before and it felt spammy&rdquo;</summary>
+    <div class="faq-body">Because most outreach IS spammy. We don&rsquo;t send &ldquo;buy our stuff&rdquo; emails. We invite decision makers to free workshops, share Rob&rsquo;s thought leadership, and lead with case studies. It&rsquo;s credibility-first, not pitch-first.</div>
+  </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;Our sales cycle is 9 months &mdash; can you really compress that?&rdquo;</summary>
+    <div class="faq-body">The workshop method puts 20-30 decision makers in one room. When CTO, CIO, and Head of Digital all hear the same message at the same time, internal alignment happens in the room &mdash; not over 6 months of internal emails. Multiple clients have seen 40-60% cycle reduction.</div>
+  </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;What if the leads aren&rsquo;t qualified?&rdquo;</summary>
+    <div class="faq-body">Our guarantee is 15 qualified conversations &mdash; meaning booked calls with decision makers at companies that fit your ICP. Not random meetings. We define &ldquo;qualified&rdquo; together before we start, and you have final say on every lead.</div>
+  </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;We&rsquo;re a UK consultancy &mdash; does your US-based team understand our market?&rdquo;</summary>
+    <div class="faq-body">Two of our current clients &mdash; Ripple and Phellos &mdash; are UK-based B2B consultancies. Same motion, same ICP targeting approach. We build the lists from UK-specific databases and tailor messaging to the UK business culture.</div>
+  </details>
+
+  <details class="faq-item">
+    <summary>&ldquo;What about GDPR?&rdquo;</summary>
+    <div class="faq-body">All outbound is GDPR-compliant. We use legitimate interest basis for B2B outreach, include opt-out in every message, and never scrape personal data. Our email infrastructure follows UK ICO guidelines.</div>
+  </details>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 22: CLOSING -->
+<!-- ============================================================ -->
+<div class="slide center-v" data-slide="22">
+<div class="slide-inner" style="justify-content:center; min-height:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">READY TO FILL THE TOP OF THE FUNNEL?</p>
+
+  <div class="quote-card mb-32" style="max-width:700px; text-align:center; border-left:4px solid var(--accent);">
+    <p style="font-size:24px; line-height:1.5;">&ldquo;The real risk is not that this technology is imperfect.<br>It&rsquo;s that others will quietly adopt it.&rdquo;</p>
+    <p style="font-size:14px; color:var(--text-secondary); margin-top:12px; font-family: 'Inter', sans-serif; font-style:normal;">&mdash; Rob Borley</p>
+  </div>
+
+  <p class="subtitle" style="max-width:660px; margin:0 auto 40px; font-size:20px;">Let&rsquo;s build the engine that puts Dootrix in front of 4,500+ organisations before your 53 competitors do.</p>
+
+  <div class="card card-violet card-sm mb-32" style="max-width:600px; text-align:center;">
+    <h4 class="mb-12" style="font-size:18px;">Next Steps</h4>
+    <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">Choose monthly or pay-in-full &rarr; Contract signed &rarr; Week 1 kickoff</p>
+  </div>
+
+  <div style="margin-top:8px;">
+    <p style="font-size:20px; font-weight:600; margin-bottom:4px;">Jordan Rafealov</p>
+    <p class="text-secondary" style="font-size:16px; margin-bottom:2px;">Dopamine Digital</p>
+    <p style="font-size:15px; color:var(--accent);">jordan@dopaminedigital.io</p>
+  </div>
+</div>
+</div>
+
+</div><!-- end deck -->
+
+<div class="nav-bar" id="navBar">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8592;</button>
+  <span class="nav-counter" id="navCounter">1 / 22</span>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">&#8594;</button>
+</div>
+
+<script>
+(function() {
+  var deck = document.getElementById('deck');
+  var slides = deck.querySelectorAll('.slide');
+  var navCounter = document.getElementById('navCounter');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var totalSlides = slides.length;
+  var currentSlide = 1;
+
+  // Touch handling
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchEndX = 0;
+  var touchEndY = 0;
+
+  function goToSlide(n) {
+    if (n < 1 || n > totalSlides) return;
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].classList.remove('active');
+    }
+    currentSlide = n;
+    slides[currentSlide - 1].classList.add('active');
+    slides[currentSlide - 1].scrollTop = 0;
+    navCounter.textContent = currentSlide + ' / ' + totalSlides;
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+
+  // Button navigation
+  prevBtn.addEventListener('click', function(e) { e.preventDefault(); prevSlide(); });
+  nextBtn.addEventListener('click', function(e) { e.preventDefault(); nextSlide(); });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevSlide();
+    }
+  });
+
+  // Touch swipe navigation
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    var diffX = touchStartX - touchEndX;
+    var diffY = touchStartY - touchEndY;
+    // Only trigger if horizontal swipe is dominant and exceeds threshold
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
